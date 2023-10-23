@@ -20,8 +20,9 @@ public class Hero extends Personagem implements Serializable{
     public void voltaAUltimaPosicao(){
         this.pPosicao.volta();
     }
-    
-    
+
+    public int qttKeys = 0;
+
     public boolean setPosicao(int linha, int coluna){
         if(this.pPosicao.setPosicao(linha, coluna)){
             if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(this.getPosicao())) {

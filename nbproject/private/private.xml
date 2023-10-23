@@ -4,18 +4,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/jfrju/Desktop/Skooter-Inicial/PrototipoProjetoPOO/src/Main.java</file>
-            <file>file:/C:/Users/jfrju/Desktop/Skooter-Inicial/PrototipoProjetoPOO/src/Modelo/ZigueZague.java</file>
-            <file>file:/C:/Users/jfrju/Desktop/Skooter-Inicial/PrototipoProjetoPOO/src/Modelo/Caveira.java</file>
-            <file>file:/C:/Users/jfrju/Desktop/Skooter-Inicial/PrototipoProjetoPOO/src/Modelo/Fogo.java</file>
-            <file>file:/C:/Users/jfrju/Desktop/Skooter-Inicial/PrototipoProjetoPOO/src/Auxiliar/Posicao.java</file>
-            <file>file:/C:/Users/jfrju/Desktop/Skooter-Inicial/PrototipoProjetoPOO/src/Controler/ControleDeJogo.java</file>
-            <file>file:/C:/Users/jfrju/Desktop/Skooter-Inicial/PrototipoProjetoPOO/src/Modelo/Personagem.java</file>
-            <file>file:/C:/Users/jfrju/Desktop/Skooter-Inicial/PrototipoProjetoPOO/src/Auxiliar/Consts.java</file>
-            <file>file:/C:/Users/jfrju/Desktop/Skooter-Inicial/PrototipoProjetoPOO/src/Modelo/Hero.java</file>
-            <file>file:/C:/Users/jfrju/Desktop/Skooter-Inicial/PrototipoProjetoPOO/src/Controler/Tela.java</file>
-            <file>file:/C:/Users/jfrju/Desktop/Skooter-Inicial/PrototipoProjetoPOO/src/Auxiliar/Desenho.java</file>
-            <file>file:/C:/Users/jfrju/Desktop/Skooter-Inicial/PrototipoProjetoPOO/src/Modelo/BichinhoVaiVemHorizontal.java</file>
+            <file>file:/C:/Users/João%20Marcelo/Documents/USP/4°%20semestre/POO/PrototipoProjetoPOO/src/Auxiliar/Consts.java</file>
+            <file>file:/C:/Users/João%20Marcelo/Documents/USP/4°%20semestre/POO/PrototipoProjetoPOO/src/Auxiliar/Posicao.java</file>
+            <file>file:/C:/Users/João%20Marcelo/Documents/USP/4°%20semestre/POO/PrototipoProjetoPOO/src/Auxiliar/Desenho.java</file>
+            <file>file:/C:/Users/João%20Marcelo/Documents/USP/4°%20semestre/POO/PrototipoProjetoPOO/src/Modelo/Hero.java</file>
+            <file>file:/C:/Users/João%20Marcelo/Documents/USP/4°%20semestre/POO/PrototipoProjetoPOO/src/Modelo/Caveira.java</file>
         </group>
     </open-files>
 </project-private>

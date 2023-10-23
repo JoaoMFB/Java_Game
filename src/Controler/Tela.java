@@ -2,7 +2,10 @@ package Controler;
 
 import Modelo.Personagem;
 import Modelo.Caveira;
+import Modelo.Wall;
 import Modelo.Hero;
+import Modelo.Key;
+import Modelo.Box;
 import Modelo.BichinhoVaiVemHorizontal;
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
@@ -53,10 +56,18 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
         /*Cria faseAtual adiciona personagens*/
         hero = new Hero("skoot.png");
-        hero.setPosicao(0, 7);
+        hero.setPosicao(0, 0);
         this.addPersonagem(hero);
-        
-        ZigueZague zz = new ZigueZague("robo.png");
+
+        Key key = new Key("Key.png");
+        key.setPosicao(9, 0);
+        this.addPersonagem(key);
+
+        /*Box box = new Box("coracao.png");
+        box.setPosicao(9, 0);
+        this.addPersonagem(box);*/
+
+        /*ZigueZague zz = new ZigueZague("robo.png");
         zz.setPosicao(5, 5);
         this.addPersonagem(zz);
 
@@ -71,8 +82,37 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         Caveira bV = new Caveira("caveira.png");
         bV.setPosicao(9, 1);
         this.addPersonagem(bV);
-    }
 
+         */
+        setWalls();
+    }
+    public void setWalls(){
+        int[][] matriz = {
+                {0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0},
+                {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+                {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+                {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+                {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+                {0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
+                {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
+                {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
+                {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
+                {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
+                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}
+        };
+        Wall Par[] = new Wall[121];
+        for (int i = 0; i < 11; i++){
+            for (int j = 0; j < 11; j++){
+                if(matriz[i][j] == 1){
+                    Par[i] = new Wall("bricks.png");
+                    Par[i].setPosicao(i,j);
+                    this.addPersonagem(Par[i]);
+                }
+            }
+        }
+
+
+    }
     public boolean ehPosicaoValida(Posicao p){
         return cj.ehPosicaoValida(this.faseAtual, p);
     }
@@ -95,7 +135,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         for (int i = 0; i < Consts.RES; i++) {
             for (int j = 0; j < Consts.RES; j++) {
                 try {
-                    Image newImage = Toolkit.getDefaultToolkit().getImage(new java.io.File(".").getCanonicalPath() + Consts.PATH + "bricks.png");
+                    Image newImage = Toolkit.getDefaultToolkit().getImage(new java.io.File(".").getCanonicalPath() + Consts.PATH + "background.png");
                     g2.drawImage(newImage,
                             j * Consts.CELL_SIDE, i * Consts.CELL_SIDE, Consts.CELL_SIDE, Consts.CELL_SIDE, null);
 

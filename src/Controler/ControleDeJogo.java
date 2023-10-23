@@ -2,6 +2,7 @@ package Controler;
 
 import Modelo.Personagem;
 import Modelo.Hero;
+import Modelo.Box;
 import auxiliar.Posicao;
 import java.util.ArrayList;
 
@@ -11,18 +12,24 @@ public class ControleDeJogo {
             e.get(i).autoDesenho();
         }
     }
-    public void processaTudo(ArrayList<Personagem> umaFase){
-        Hero hero = (Hero)umaFase.get(0);
+    public void processaTudo(ArrayList<Personagem> umaFase) {
+        Hero hero = (Hero) umaFase.get(0);
         Personagem pIesimoPersonagem;
-        for(int i = 1; i < umaFase.size(); i++){
+        for (int i = 1; i < umaFase.size(); i++) {
             pIesimoPersonagem = umaFase.get(i);
-            if(hero.getPosicao().igual(pIesimoPersonagem.getPosicao()))
-                if(pIesimoPersonagem.isbTransponivel())
-                    /*TO-DO: verificar se o personagem eh mortal antes de retirar*/                    
+            if (hero.getPosicao().igual(pIesimoPersonagem.getPosicao())) {
+                if (pIesimoPersonagem.isbTransponivel()) {
+                    if (pIesimoPersonagem.isbKey()){
+                        hero.qttKeys++;
+                        System.out.format("%d", hero.qttKeys);
+                    }
                     umaFase.remove(pIesimoPersonagem);
+
+                }
+            }
         }
     }
-    
+
     /*Retorna true se a posicao p é válida para Hero com relacao a todos os personagens no array*/
     public boolean ehPosicaoValida(ArrayList<Personagem> umaFase, Posicao p){
         Personagem pIesimoPersonagem;
