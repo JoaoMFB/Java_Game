@@ -22,6 +22,7 @@ public class Hero extends Personagem implements Serializable{
     }
 
     public int qttKeys = 0;
+    private int direcao = -1; // -1 significa que o herói não se moveu ainda
 
     public boolean setPosicao(int linha, int coluna){
         if(this.pPosicao.setPosicao(linha, coluna)){
@@ -41,28 +42,40 @@ public class Hero extends Personagem implements Serializable{
         }
         return true;       
     }
-    
+    public int getDirecao() {
+        return direcao;
+    }
+
+
     public boolean moveUp() {
-        if(super.moveUp())
+        if(super.moveUp()) {
+            direcao = 1;
             return validaPosicao();
+        }
         return false;
     }
 
     public boolean moveDown() {
-        if(super.moveDown())
+        if(super.moveDown()) {
+            direcao = 2;
             return validaPosicao();
+        }
         return false;
     }
 
     public boolean moveRight() {
-        if(super.moveRight())
+        if(super.moveRight()) {
+            direcao = 3;
             return validaPosicao();
+        }
         return false;
     }
 
     public boolean moveLeft() {
-        if(super.moveLeft())
+        if(super.moveLeft()) {
+            direcao = 4;
             return validaPosicao();
+        }
         return false;
     }    
     

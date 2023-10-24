@@ -23,8 +23,13 @@ public class ControleDeJogo {
                         hero.qttKeys++;
                         System.out.format("%d", hero.qttKeys);
                     }
-                    umaFase.remove(pIesimoPersonagem);
-
+                    if(pIesimoPersonagem.isbBox()){
+                        int direcaoHero = hero.getDirecao();
+                        pIesimoPersonagem.moveBox(direcaoHero);
+                }
+                    if(!pIesimoPersonagem.isbBox()) {
+                        umaFase.remove(pIesimoPersonagem);
+                    }
                 }
             }
         }
@@ -35,9 +40,13 @@ public class ControleDeJogo {
         Personagem pIesimoPersonagem;
         for(int i = 1; i < umaFase.size(); i++){
             pIesimoPersonagem = umaFase.get(i);            
-            if(!pIesimoPersonagem.isbTransponivel())
-                if(pIesimoPersonagem.getPosicao().igual(p))
+            if(!pIesimoPersonagem.isbTransponivel()) {
+                if(pIesimoPersonagem.isbBox()){
+                    return true;
+                }
+                if (pIesimoPersonagem.getPosicao().igual(p))
                     return false;
+            }
         }        
         return true;
     }

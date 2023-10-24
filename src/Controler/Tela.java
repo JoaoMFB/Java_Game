@@ -55,16 +55,14 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         faseAtual = new ArrayList<Personagem>();
 
         /*Cria faseAtual adiciona personagens*/
-        hero = new Hero("skoot.png");
-        hero.setPosicao(0, 0);
-        this.addPersonagem(hero);
 
-        Key key = new Key("Key.png");
+
+        /*Key key = new Key("Key.png");
         key.setPosicao(9, 0);
         this.addPersonagem(key);
 
-        /*Box box = new Box("coracao.png");
-        box.setPosicao(9, 0);
+        Box box = new Box("coracao.png");
+        box.setPosicao(4, 2);
         this.addPersonagem(box);*/
 
         /*ZigueZague zz = new ZigueZague("robo.png");
@@ -88,29 +86,47 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
     public void setWalls(){
         int[][] matriz = {
-                {0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0},
+                {9, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0},
                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
-                {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+                {0, 1, 3, 1, 0, 1, 0, 1, 0, 1, 0},
                 {0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}
+                {2, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0}
         };
-        Wall Par[] = new Wall[121];
+
+        Wall Par[] = new Wall[121]; //index 1
+        Key Key[] = new Key[12]; //index 2
+        Box Box[] = new Box[12]; //index 3
         for (int i = 0; i < 11; i++){
             for (int j = 0; j < 11; j++){
+                if(matriz[i][j] == 9){
+                    hero = new Hero("skoot.png");
+                    hero.setPosicao(0, 0);
+                    this.addPersonagem(hero);
+                }
                 if(matriz[i][j] == 1){
                     Par[i] = new Wall("bricks.png");
                     Par[i].setPosicao(i,j);
                     this.addPersonagem(Par[i]);
                 }
+                if(matriz[i][j] == 2){
+                    Key[i] = new Key("key.png");
+                    Key[i].setPosicao(i, j);
+                    this.addPersonagem(Key[i]);
+                }
+                if(matriz[i][j] == 3){
+                    Box[i] = new Box("coracao.png");
+                    Box[i].setPosicao(i, j);
+                    this.addPersonagem(Box[i]);
+                }
+
             }
         }
-
 
     }
     public boolean ehPosicaoValida(Posicao p){

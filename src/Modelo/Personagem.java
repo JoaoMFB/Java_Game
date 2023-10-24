@@ -59,6 +59,32 @@ public abstract class Personagem implements Serializable {
         return isKey;
     }
 
+    public boolean isbBox(){
+        return isBox;
+    }
+
+
+    public void moveBox(int direcao) {
+        Posicao novaPosicao = this.getPosicao();
+        int novaLinha = novaPosicao.getLinha();
+        int novaColuna = novaPosicao.getColuna();
+
+        // Dependendo da direção em que o herói estava indo, atualize a nova posição da caixa
+        if (direcao == 1) { // Herói estava indo para cima
+            novaPosicao.moveUp();
+        } else if (direcao == 2) { // Herói estava indo para baixo
+            novaPosicao.moveDown();
+        } else if (direcao == 3) { // Herói estava indo para a direita
+            novaPosicao.moveRight();
+        } else if (direcao == 4) { // Herói estava indo para a esquerda
+            novaPosicao.moveLeft();
+        }
+
+        // Verifique se a nova posição da caixa é válida e atualize-a
+        if (Desenho.acessoATelaDoJogo().ehPosicaoValida(novaPosicao)) {
+            this.setPosicao(novaPosicao.getLinha(), novaPosicao.getColuna());
+        }
+    }
 
     public void autoDesenho(){
         Desenho.desenhar(this.iImage, this.pPosicao.getColuna(), this.pPosicao.getLinha());        
