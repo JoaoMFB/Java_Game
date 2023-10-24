@@ -60,13 +60,13 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                 {0, 1, 6, 1, 0, 1, 0, 1, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
                 {0, 1, 0, 1, 6, 1, 0, 1, 0, 1, 0},
-                {0, 1, 3, 1, 0, 1, 0, 1, 0, 1, 0},
-                {0, 1, 0, 4, 0, 1, 0, 0, 0, 1, 0},
+                {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+                {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0, 1, 5, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
+                {0, 1, 0, 4, 0, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-                {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-                {2, 0, 0, 1, 5, 0, 0, 0, 0, 0, 7}
+                {2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 7}
         };
 
         Wall Par[] = new Wall[121]; //index 1
@@ -400,8 +400,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             hero.moveRight();
         } else if (e.getKeyCode() == KeyEvent.VK_R){
-        this.faseAtual.clear();
-        setAllChar();
+            this.faseAtual.clear();
+            setAllChar();
         }else if(e.getKeyCode() == KeyEvent.VK_P) {
             if (this.cj.isFinished()) {
                 switch(this.cj.getFase()){
@@ -418,10 +418,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                         setAllChar4();
                         break;
                     default:
-
                 }
-
-
             } else {
                 System.out.println("Termine a fase antes");
             }

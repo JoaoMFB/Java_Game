@@ -56,6 +56,9 @@ public class ControleDeJogo {
                         System.out.println("Parabéns, você liberou a próxima fase! Aperte 'P' para continuar ou 'R' para refazer.\n");
                         setFinished(true);
                         this.setFase(this.getFase()+1);
+                        if(this.getFase() == 4){
+                            System.out.println("Parabéns, você zerou o jogo!");
+                        }
                     }
                 }
                 if(pIesimoPersonagem.isbDoor()){
@@ -73,7 +76,7 @@ public class ControleDeJogo {
     public void resetaHeroi(Hero hero){
         hero.setPosicao(0, 0);
         hero.setQttLifes(hero.getQttLifes()-1);
-        System.out.format("Você morreu, mas ainda restam: %d vidas\n", hero.getQttLifes());
+        System.out.format("Você morreu, mas ainda restam: %d vidas. Tente novamente!\n", hero.getQttLifes());
     }
 
 
@@ -99,15 +102,16 @@ public class ControleDeJogo {
         for(int i = 1; i < umaFase.size(); i++){
             pIesimoPersonagem = umaFase.get(i);            
             if(!pIesimoPersonagem.isbTransponivel()) {
-                if(pIesimoPersonagem.isbBox()){
-                    return true;
-                }
-                if(pIesimoPersonagem.isbDoor()){
-                    return true;
+                if (pIesimoPersonagem.getPosicao().igual(p)) {
+                    if (pIesimoPersonagem.isbBox()) {
+                        return true;
+                    }
+                    else if (pIesimoPersonagem.isbDoor()) {
+                        return true;
+                    }
+                    else{return false;}
                 }
 
-                if (pIesimoPersonagem.getPosicao().igual(p))
-                    return false;
             }
         }        
         return true;
