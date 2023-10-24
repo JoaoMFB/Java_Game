@@ -21,7 +21,7 @@ public class Hero extends Personagem implements Serializable{
         this.pPosicao.volta();
     }
 
-    public int qttKeys = 0;
+    private int qttKeys = 0;
     private int direcao = -1; // -1 significa que o herói não se moveu ainda
 
     public boolean setPosicao(int linha, int coluna){
@@ -32,6 +32,14 @@ public class Hero extends Personagem implements Serializable{
             return true;
         }
         return false;       
+    }
+
+    public int getQttKeys() {
+        return qttKeys;
+    }
+
+    public void setQttKeys(int qttKeys) {
+        this.qttKeys = qttKeys;
     }
 
     /*TO-DO: este metodo pode ser interessante a todos os personagens que se movem*/

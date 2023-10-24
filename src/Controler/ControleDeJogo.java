@@ -15,21 +15,30 @@ public class ControleDeJogo {
     public void processaTudo(ArrayList<Personagem> umaFase) {
         Hero hero = (Hero) umaFase.get(0);
         Personagem pIesimoPersonagem;
+        int keys = hero.getQttKeys();
         for (int i = 1; i < umaFase.size(); i++) {
             pIesimoPersonagem = umaFase.get(i);
             if (hero.getPosicao().igual(pIesimoPersonagem.getPosicao())) {
                 if (pIesimoPersonagem.isbTransponivel()) {
                     if (pIesimoPersonagem.isbKey()){
-                        hero.qttKeys++;
-                        System.out.format("%d", hero.qttKeys);
+                        keys++;
+                        hero.setQttKeys(keys);
+                        System.out.format("Chaves coletadas: %d", keys);
                     }
                     if(pIesimoPersonagem.isbBox()){
                         int direcaoHero = hero.getDirecao();
                         pIesimoPersonagem.moveBox(direcaoHero);
-                }
+                    }
                     if(!pIesimoPersonagem.isbBox()) {
                         umaFase.remove(pIesimoPersonagem);
                     }
+                    //Implementar a morte do hero (reset) quando entra no monstro.
+                    /*if(pIesimoPersonagem.isbMonster()) {
+                        umaFase.remove(hero);
+                    }*/
+                }
+                if(pIesimoPersonagem.isbDoor()){
+                    pIesimoPersonagem.openDoor(hero.getQttKeys());
                 }
             }
         }
@@ -44,6 +53,7 @@ public class ControleDeJogo {
                 if(pIesimoPersonagem.isbBox()){
                     return true;
                 }
+
                 if (pIesimoPersonagem.getPosicao().igual(p))
                     return false;
             }

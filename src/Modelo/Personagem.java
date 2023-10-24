@@ -17,8 +17,11 @@ public abstract class Personagem implements Serializable {
     protected boolean bTransponivel; /*Pode passar por cima?*/
     protected boolean bMortal;       /*Se encostar, morre?*/
     protected boolean isBox;
+    protected boolean isMonster;
 
     protected boolean isKey;
+
+    protected boolean isDoor;
 
 
 
@@ -28,6 +31,9 @@ public abstract class Personagem implements Serializable {
         this.bMortal = false;
         this.isBox = false;
         this.isKey = false;
+        this.isDoor = false;
+        this.isMonster = false;
+
         try {
             iImage = new ImageIcon(new java.io.File(".").getCanonicalPath() + Consts.PATH + sNomeImagePNG);
             Image img = iImage.getImage();
@@ -63,6 +69,9 @@ public abstract class Personagem implements Serializable {
         return isBox;
     }
 
+    public boolean isbDoor() { return isDoor; }
+
+    public boolean isbMonster(){return isMonster;}
 
     public void moveBox(int direcao) {
         Posicao novaPosicao = this.getPosicao();
@@ -83,6 +92,12 @@ public abstract class Personagem implements Serializable {
         // Verifique se a nova posição da caixa é válida e atualize-a
         if (Desenho.acessoATelaDoJogo().ehPosicaoValida(novaPosicao)) {
             this.setPosicao(novaPosicao.getLinha(), novaPosicao.getColuna());
+        }
+    }
+
+    public void openDoor(int qttKeys){
+        if(qttKeys >= 1){
+            this.setbTransponivel(true);
         }
     }
 

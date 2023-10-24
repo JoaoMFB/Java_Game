@@ -1,15 +1,8 @@
 package Controler;
 
-import Modelo.Personagem;
-import Modelo.Caveira;
-import Modelo.Wall;
-import Modelo.Hero;
-import Modelo.Key;
-import Modelo.Box;
-import Modelo.BichinhoVaiVemHorizontal;
+import Modelo.*;
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
-import Modelo.ZigueZague;
 import auxiliar.Posicao;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -56,52 +49,29 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
         /*Cria faseAtual adiciona personagens*/
 
-
-        /*Key key = new Key("Key.png");
-        key.setPosicao(9, 0);
-        this.addPersonagem(key);
-
-        Box box = new Box("coracao.png");
-        box.setPosicao(4, 2);
-        this.addPersonagem(box);*/
-
-        /*ZigueZague zz = new ZigueZague("robo.png");
-        zz.setPosicao(5, 5);
-        this.addPersonagem(zz);
-
-        BichinhoVaiVemHorizontal bBichinhoH = new BichinhoVaiVemHorizontal("roboPink.png");
-        bBichinhoH.setPosicao(3, 3);
-        this.addPersonagem(bBichinhoH);
-
-        BichinhoVaiVemHorizontal bBichinhoH2 = new BichinhoVaiVemHorizontal("roboPink.png");
-        bBichinhoH2.setPosicao(6, 6);
-        this.addPersonagem(bBichinhoH2);
-
-        Caveira bV = new Caveira("caveira.png");
-        bV.setPosicao(9, 1);
-        this.addPersonagem(bV);
-
-         */
-        setWalls();
+        setAllChar();
     }
-    public void setWalls(){
+    public void setAllChar(){
         int[][] matriz = {
                 {9, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0},
                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
                 {0, 1, 3, 1, 0, 1, 0, 1, 0, 1, 0},
-                {0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
+                {0, 1, 0, 4, 0, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-                {2, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0}
+                {2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}
         };
 
         Wall Par[] = new Wall[121]; //index 1
         Key Key[] = new Key[12]; //index 2
         Box Box[] = new Box[12]; //index 3
+        Door Door[] = new Door[12]; //index 4
+        Monster Monster[] = new Monster[12]; //index 5
+
         for (int i = 0; i < 11; i++){
             for (int j = 0; j < 11; j++){
                 if(matriz[i][j] == 9){
@@ -123,6 +93,16 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                     Box[i] = new Box("coracao.png");
                     Box[i].setPosicao(i, j);
                     this.addPersonagem(Box[i]);
+                }
+                if(matriz[i][j] == 4){
+                    Door[i] = new Door("door.png");
+                    Door[i].setPosicao(i, j);
+                    this.addPersonagem(Door[i]);
+                }
+                if(matriz[i][j] == 5){
+                    Monster[i] = new Monster("caveira.png");
+                    Monster[i].setPosicao(i, j);
+                    this.addPersonagem(Monster[i]);
                 }
 
             }
