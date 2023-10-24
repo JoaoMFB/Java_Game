@@ -11,7 +11,7 @@ public class Wall extends Personagem implements Serializable{
 
     public Wall(String sNomeImagePNG) {
         super(sNomeImagePNG);
-        this.bTransponivel = false;
+        this.setbTransponivel(false);
         this.iContaIntervalos = 0;
     }
 

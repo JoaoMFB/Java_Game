@@ -16,6 +16,7 @@ public class ControleDeJogo {
         Hero hero = (Hero) umaFase.get(0);
         Personagem pIesimoPersonagem;
         int keys = hero.getQttKeys();
+        int life = hero.getQttLifes();
         for (int i = 1; i < umaFase.size(); i++) {
             pIesimoPersonagem = umaFase.get(i);
             if (hero.getPosicao().igual(pIesimoPersonagem.getPosicao())) {
@@ -23,25 +24,47 @@ public class ControleDeJogo {
                     if (pIesimoPersonagem.isbKey()){
                         keys++;
                         hero.setQttKeys(keys);
-                        System.out.format("Chaves coletadas: %d", keys);
+                        System.out.format("Chaves coletadas: %d\ns", keys);
                     }
                     if(pIesimoPersonagem.isbBox()){
                         int direcaoHero = hero.getDirecao();
                         pIesimoPersonagem.moveBox(direcaoHero);
                     }
+                    if (pIesimoPersonagem.isbLife()){
+                        life++;
+                        hero.setQttLifes(life);
+                        System.out.format("Vidas atuais: %d\n", life);
+                    }
                     if(!pIesimoPersonagem.isbBox()) {
                         umaFase.remove(pIesimoPersonagem);
                     }
                     //Implementar a morte do hero (reset) quando entra no monstro.
-                    /*if(pIesimoPersonagem.isbMonster()) {
-                        umaFase.remove(hero);
-                    }*/
+                    if(pIesimoPersonagem.isbMonster()) {
+                        if(hero.getQttLifes() != 0){
+                            resetaHeroi(hero);
+                        }
+                        else{
+                            umaFase.remove(hero);
+                            System.out.println("Você morreu e não tem mais vidas, pressione R para recomeçar a fase!\n");
+                        }
+                    }
                 }
                 if(pIesimoPersonagem.isbDoor()){
-                    pIesimoPersonagem.openDoor(hero.getQttKeys());
+                    if(hero.getQttKeys() >= 1){
+                        pIesimoPersonagem.changeImg("open_door.png");
+                        pIesimoPersonagem.autoDesenho();
+                    }
+                    else{
+                        hero.voltaAUltimaPosicao();
+                    }
                 }
             }
         }
+    }
+    public void resetaHeroi(Hero hero){
+        hero.setPosicao(0, 0);
+        hero.setQttLifes(hero.getQttLifes()-1);
+        System.out.format("Você morreu, mas ainda restam: %d vidas\n", hero.getQttLifes());
     }
 
     /*Retorna true se a posicao p é válida para Hero com relacao a todos os personagens no array*/
@@ -51,6 +74,9 @@ public class ControleDeJogo {
             pIesimoPersonagem = umaFase.get(i);            
             if(!pIesimoPersonagem.isbTransponivel()) {
                 if(pIesimoPersonagem.isbBox()){
+                    return true;
+                }
+                if(pIesimoPersonagem.isbDoor()){
                     return true;
                 }
 

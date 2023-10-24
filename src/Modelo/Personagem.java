@@ -20,6 +20,7 @@ public abstract class Personagem implements Serializable {
     protected boolean isMonster;
 
     protected boolean isKey;
+    protected boolean isLife;
 
     protected boolean isDoor;
 
@@ -33,6 +34,7 @@ public abstract class Personagem implements Serializable {
         this.isKey = false;
         this.isDoor = false;
         this.isMonster = false;
+        this.isLife = false;
 
         try {
             iImage = new ImageIcon(new java.io.File(".").getCanonicalPath() + Consts.PATH + sNomeImagePNG);
@@ -56,6 +58,19 @@ public abstract class Personagem implements Serializable {
         return bTransponivel;
     }
 
+    public void changeImg(String sNomeImagePNG){
+        try {
+            iImage = new ImageIcon(new java.io.File(".").getCanonicalPath() + Consts.PATH + sNomeImagePNG);
+            Image img = iImage.getImage();
+            BufferedImage bi = new BufferedImage(Consts.CELL_SIDE, Consts.CELL_SIDE, BufferedImage.TYPE_INT_ARGB);
+            Graphics g = bi.createGraphics();
+            g.drawImage(img, 0, 0, Consts.CELL_SIDE, Consts.CELL_SIDE, null);
+            iImage = new ImageIcon(bi);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
     public void setbTransponivel(boolean bTransponivel) {
         this.bTransponivel = bTransponivel;
     }
@@ -63,6 +78,9 @@ public abstract class Personagem implements Serializable {
 
     public boolean isbKey(){
         return isKey;
+    }
+    public boolean isbLife(){
+        return isLife;
     }
 
     public boolean isbBox(){

@@ -45,6 +45,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         this.setSize(Consts.RES * Consts.CELL_SIDE + getInsets().left + getInsets().right,
                 Consts.RES * Consts.CELL_SIDE + getInsets().top + getInsets().bottom);
 
+
         faseAtual = new ArrayList<Personagem>();
 
         /*Cria faseAtual adiciona personagens*/
@@ -54,16 +55,16 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     public void setAllChar(){
         int[][] matriz = {
                 {9, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0},
+                {0, 1, 6, 1, 0, 1, 0, 1, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
-                {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
-                {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+                {0, 1, 0, 1, 6, 1, 0, 1, 0, 1, 0},
                 {0, 1, 3, 1, 0, 1, 0, 1, 0, 1, 0},
                 {0, 1, 0, 4, 0, 1, 0, 0, 0, 1, 0},
+                {0, 1, 0 , 1, 5, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-                {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-                {2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}
+                {2, 0, 0, 1, 5, 0, 0, 0, 0, 0, 0}
         };
 
         Wall Par[] = new Wall[121]; //index 1
@@ -71,6 +72,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         Box Box[] = new Box[12]; //index 3
         Door Door[] = new Door[12]; //index 4
         Monster Monster[] = new Monster[12]; //index 5
+        Life Life[] = new Life[12]; //index 4
+
 
         for (int i = 0; i < 11; i++){
             for (int j = 0; j < 11; j++){
@@ -85,7 +88,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                     this.addPersonagem(Par[i]);
                 }
                 if(matriz[i][j] == 2){
-                    Key[i] = new Key("key.png");
+                    Key[i] = new Key("axe.png");
                     Key[i].setPosicao(i, j);
                     this.addPersonagem(Key[i]);
                 }
@@ -103,6 +106,11 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                     Monster[i] = new Monster("caveira.png");
                     Monster[i].setPosicao(i, j);
                     this.addPersonagem(Monster[i]);
+                }
+                if(matriz[i][j] == 6){
+                    Life[i] = new Life("coracao.png");
+                    Life[i].setPosicao(i, j);
+                    this.addPersonagem(Life[i]);
                 }
 
             }
@@ -173,7 +181,12 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             hero.moveLeft();
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             hero.moveRight();
-        }
+        } else if (e.getKeyCode() == KeyEvent.VK_R){
+        this.faseAtual.clear();
+        setAllChar();
+
+    }
+
 
         this.setTitle("-> Cell: " + (hero.getPosicao().getColuna()) + ", "
                 + (hero.getPosicao().getLinha()));
