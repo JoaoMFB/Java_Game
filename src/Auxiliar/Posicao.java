@@ -14,12 +14,12 @@ public class Posicao  implements Serializable{
     }
 
     public boolean setPosicao(int linha, int coluna){       
-        if(linha < 0 || linha >= Auxiliar.Consts.RES)
+        if(linha < 0 || linha == Auxiliar.Consts.RES)
             return false;
         linhaAnterior = this.linha;
         this.linha = linha;
         
-        if(coluna < 0 || coluna >= Auxiliar.Consts.RES)
+        if(coluna < 0 || coluna == Auxiliar.Consts.RES)
             return false;
         colunaAnterior = this.coluna;
         this.coluna = coluna;
