@@ -24,6 +24,8 @@ public abstract class Personagem implements Serializable {
 
     protected boolean isDoor;
 
+    protected boolean isDiamond;
+
 
 
     protected Personagem(String sNomeImagePNG) {
@@ -35,6 +37,7 @@ public abstract class Personagem implements Serializable {
         this.isDoor = false;
         this.isMonster = false;
         this.isLife = false;
+        this.isDiamond = false;
 
         try {
             iImage = new ImageIcon(new java.io.File(".").getCanonicalPath() + Consts.PATH + sNomeImagePNG);
@@ -90,6 +93,8 @@ public abstract class Personagem implements Serializable {
     public boolean isbDoor() { return isDoor; }
 
     public boolean isbMonster(){return isMonster;}
+
+    public boolean isbDiamond(){return isDiamond;}
 
     public void moveBox(int direcao) {
         Posicao novaPosicao = this.getPosicao();
