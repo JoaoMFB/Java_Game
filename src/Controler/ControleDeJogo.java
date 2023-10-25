@@ -121,6 +121,7 @@ public class ControleDeJogo {
                     else if (pIesimoPersonagem.isbDoor()) {
                         return true;
                     }
+
                     else{return false;}
                 }
 

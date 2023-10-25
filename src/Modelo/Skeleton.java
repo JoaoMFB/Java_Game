@@ -49,5 +49,8 @@ public class Skeleton extends Personagem implements Serializable{
                 Desenho.acessoATelaDoJogo().addPersonagem(arrow);
             }
         }
-    }    
+    }
+
+
+
 }

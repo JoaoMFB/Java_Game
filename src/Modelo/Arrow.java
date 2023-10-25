@@ -40,5 +40,6 @@ public class Arrow extends Personagem implements Serializable{
         
         
     }
+
     
 }
