@@ -27,23 +27,52 @@ public class Zombie extends Personagem implements Serializable {
         this.setbTransponivel(true);
         this.direction = direction;
     }
-    public void autoDesenho(){
+    public void autoDesenho() {
         Random rand = new Random();
         int randomDirection = rand.nextInt(4);
-        if(this.direction == 'v'){
-            if (this.iDirecao)
-                this.setPosicao(pPosicao.getLinha()+1, pPosicao.getColuna());
-            else
-                this.setPosicao(pPosicao.getLinha() - 1, pPosicao.getColuna());
-            super.autoDesenho();
+
+        if (this.direction == 'v' || this.direction == 'h') {
+            // Tente mover na direção atual
+            boolean canMove = validaPosicao();
+
+            if (canMove) {
+                if (this.direction == 'v') {
+                    if (this.iDirecao)
+                        this.setPosicao(pPosicao.getLinha() + 1, pPosicao.getColuna());
+                    else
+                        this.setPosicao(pPosicao.getLinha() - 1, pPosicao.getColuna());
+                }
+
+                if (this.direction == 'h') {
+                    if (this.iDirecao)
+                        this.setPosicao(pPosicao.getLinha(), pPosicao.getColuna() + 1);
+                    else
+                        this.setPosicao(pPosicao.getLinha(), pPosicao.getColuna() - 1);
+                }
+            } else {
+                // Se não pode mover, mude a direção
+                this.iDirecao = !this.iDirecao;
+                // Tente mover na nova direção
+                boolean newCanMove = validaPosicao();
+                if (newCanMove) {
+                    if (this.direction == 'v') {
+                        if (this.iDirecao)
+                            this.setPosicao(pPosicao.getLinha() + 1, pPosicao.getColuna());
+                        else
+                            this.setPosicao(pPosicao.getLinha() - 1, pPosicao.getColuna());
+                    }
+
+                    if (this.direction == 'h') {
+                        if (this.iDirecao)
+                            this.setPosicao(pPosicao.getLinha(), pPosicao.getColuna() + 1);
+                        else
+                            this.setPosicao(pPosicao.getLinha(), pPosicao.getColuna() - 1);
+                    }
+                }
+            }
         }
-        if(this.direction == 'h'){
-            if (this.iDirecao)
-                this.setPosicao(pPosicao.getLinha(), pPosicao.getColuna()+1);
-            else
-                this.setPosicao(pPosicao.getLinha(), pPosicao.getColuna()-1);
-            super.autoDesenho();
-        }if(this.direction == 'a') {
+
+        if (this.direction == 'a') {
             if (randomDirection == 0)
                 this.setPosicao(pPosicao.getLinha(), pPosicao.getColuna() + 1);
             else if (randomDirection == 1)
@@ -52,9 +81,12 @@ public class Zombie extends Personagem implements Serializable {
                 this.setPosicao(pPosicao.getLinha(), pPosicao.getColuna() - 1);
             else if (randomDirection == 3)
                 this.setPosicao(pPosicao.getLinha() - 1, pPosicao.getColuna());
-            super.autoDesenho();
         }
+
+        super.autoDesenho();
     }
+
+
 
     private boolean validaPosicao(){
         if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(this.getPosicao())) {
@@ -72,7 +104,7 @@ public class Zombie extends Personagem implements Serializable {
         if(this.pPosicao.setPosicao(linha, coluna)){
             if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(this.getPosicao())) {
                 this.voltaAUltimaPosicao();
-                this.iDirecao = false;
+                this.iDirecao = !this.iDirecao;
             }
             return true;
         }

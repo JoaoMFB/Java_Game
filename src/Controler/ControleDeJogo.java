@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class ControleDeJogo {
     protected boolean isFinished;
-    protected int fase = 1;
+    protected int fase = 0;
 
     public void desenhaTudo(ArrayList<Personagem> e){
         for(int i = 0; i < e.size(); i++){
@@ -53,7 +53,7 @@ public class ControleDeJogo {
                             hero.setQttLifes(life);
                             System.out.format("Vidas atuais: %d\n", life);
                         }
-                        if (!pIesimoPersonagem.isbBox()) {
+                        if (!pIesimoPersonagem.isbBox() && !pIesimoPersonagem.isbMonster()) {
                             umaFase.remove(pIesimoPersonagem);
                         }
                         // Implementar a morte do hero (reset) quando entra no monstro.
@@ -86,13 +86,14 @@ public class ControleDeJogo {
                         if (pIesimoPersonagem.isbArco()) {
                             hero.setArco(true);
                         }
-                        if (pIesimoPersonagem.isbDoor()) {
-                            if (hero.getQttKeys() >= 1) {
-                                pIesimoPersonagem.changeImg("open_door.png");
-                                pIesimoPersonagem.autoDesenho();
-                            } else {
-                                hero.voltaAUltimaPosicao();
-                            }
+
+                    }
+                    if (pIesimoPersonagem.isbDoor()) {
+                        if (hero.getQttKeys() >= 1) {
+                            pIesimoPersonagem.changeImg("open_door.png");
+                            pIesimoPersonagem.autoDesenho();
+                        } else {
+                            hero.voltaAUltimaPosicao();
                         }
                     }
                 }

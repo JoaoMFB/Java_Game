@@ -37,7 +37,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     private ArrayList<Personagem> faseAtual;
     private ControleDeJogo cj = new ControleDeJogo();
     private Graphics g2;
-
+    private int faseAt;
     public Tela() {
         Desenho.setCenario(this);
         initComponents();
@@ -58,20 +58,23 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
     public void setAllChar(){
         int[][] matriz = {
-                {9, 0, 4, 0, 0, 1, 1, 1, 0, 0, 0},
-                {0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0},
-                {0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0},
-                {0, 0, 1, 0, 6, 1, 0, 1, 0, 1, 0},
-                {0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0},
-                {0, 6, 1, 0, 0, 1, 0, 0, 0, 1, 0},
-                {3, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0},
-                {0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0},
-                {0, 0, 16, 0, 0, 1, 0, 0, 0, 1, 0},
-                {0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0},
-                {0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 7}
+                {9, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10},
+                {10, 0, 0, 4, 0, 0, 1, 1, 1, 0, 0, 0, 10},
+                {10, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 10},
+                {10, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 10},
+                {10, 0, 0, 1, 0, 6, 1, 0, 1, 0, 1, 0, 10},
+                {10, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 10},
+                {10, 0, 6, 1, 0, 0, 1, 0, 0, 0, 1, 0, 10},
+                {10, 3, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 10},
+                {10, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10},
+                {10, 0, 0, 16, 0, 0, 1, 0, 0, 0, 1, 0, 10},
+                {10, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10},
+                {10, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 7, 10},
+                {10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10}
         };
 
         Wall Par[] = new Wall[121]; //index 1
+        Wall Stone[] = new Wall[121]; //index 10
         Key Key[] = new Key[12]; //index 2
         Box Box[] = new Box[12]; //index 3
         Door Door[] = new Door[12]; //index 4
@@ -81,8 +84,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         Zombie Zombie[] = new Zombie[12]; //index 15, 16, 17 (vertical, horizontal, aleatorio)
 
         //Heroi --> index 9, diamond --> index 7
-        for (int i = 0; i < 11; i++){
-            for (int j = 0; j < 11; j++){
+        for (int i = 0; i < 13; i++){
+            for (int j = 0; j < 13; j++){
                 if(matriz[i][j] == 9){
                     hero = new Hero("skoot.png");
                     hero.setPosicao(0, 0);
@@ -99,7 +102,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                     this.addPersonagem(Key[i]);
                 }
                 if(matriz[i][j] == 3){
-                    Box[i] = new Box("coracao.png");
+                    Box[i] = new Box("pig.png");
                     Box[i].setPosicao(i, j);
                     this.addPersonagem(Box[i]);
                 }
@@ -127,6 +130,11 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                     Zombie[i] = new Zombie("zombie.png", 'v');
                     Zombie[i].setPosicao(i, j);
                     this.addPersonagem(Zombie[i]);
+                }
+                if(matriz[i][j] == 10){
+                    Stone[i] = new Wall("stone.png");
+                    Stone[i].setPosicao(i,j);
+                    this.addPersonagem(Stone[i]);
                 }
                 if(matriz[i][j] == 11){
                     Skeleton[i] = new Skeleton("skeleton.png", 1);
@@ -310,17 +318,19 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
     public void setAllChar4(){
         int[][] matriz = {
-                {9, 1, 1, 1, 0, 1, 1, 1, 0, 0, 66},
-                {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0},
-                {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0},
-                {0, 1, 1, 1, 6, 1, 0, 1, 0, 1, 0},
-                {0, 1, 3, 1, 0, 1, 0, 1, 0, 1, 0},
-                {33, 1, 0, 4, 0, 1, 0, 0, 0, 1, 0},
-                {0, 1, 0 , 1, 5, 1, 0, 0, 0, 1, 0},
-                {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-                {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-                {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-                {2, 0, 0, 1, 5, 0, 0, 0, 0, 0, 7}
+                {9, 0, 10, 10, 10, 10, 10, 10, 10, 66, 10, 10, 10},
+                {10, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 10},
+                {10, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 10},
+                {10, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 10},
+                {10, 0, 1, 1, 1, 6, 1, 0, 1, 0, 1, 0, 10},
+                {10, 0, 1, 3, 1, 0, 1, 0, 1, 0, 1, 0, 10},
+                {10, 33, 1, 0, 4, 0, 1, 0, 0, 0, 1, 0, 10},
+                {10, 0, 1, 0 , 1, 5, 1, 0, 0, 0, 1, 0, 10},
+                {10, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 10},
+                {10, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 10},
+                {10, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 10},
+                {10, 2, 0, 0, 1, 5, 0, 0, 0, 0, 0, 7, 10},
+                {10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10}
         };
 
         Wall Par[] = new Wall[121]; //index 1
@@ -331,8 +341,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         Life Life[] = new Life[12]; //index 4
 
 
-        for (int i = 0; i < 11; i++){
-            for (int j = 0; j < 11; j++){
+        for (int i = 0; i < 13; i++){
+            for (int j = 0; j < 13; j++){
                 if(matriz[i][j] == 9){
                     hero = new Hero("skoot.png");
                     hero.setPosicao(0, 0);
@@ -448,16 +458,26 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             this.faseAtual.clear();
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             hero.moveUp();
-            ghast.moveUp();
+            if(faseAt == 3){
+                ghast.moveUp();
+            }
+
+
+
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             hero.moveDown();
-            ghast.moveDown();
+            if(faseAt == 3){
+                ghast.moveDown();
+            }
+
+
+
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             hero.moveLeft();
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             hero.moveRight();
         } else if (e.getKeyCode() == KeyEvent.VK_K){
-            if(hero.getArco() == true){
+            if(hero.getArco()){
                 hero.atirar();
             }
         } else if (e.getKeyCode() == KeyEvent.VK_R){
@@ -466,16 +486,18 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         }else if(e.getKeyCode() == KeyEvent.VK_P) {
             if (this.cj.isFinished()) {
                 switch(this.cj.getFase()){
-                    case(2):
+                    case(1):
                         this.faseAtual.clear();
                         setAllChar2();
+
                         break;
-                    case(3):
+                    case(2):
                         this.faseAtual.clear();
                         setAllChar3();
                         break;
-                    case(4):
+                    case(3):
                         this.faseAtual.clear();
+                        faseAt = 3;
                         setAllChar4();
                         break;
                     default:
@@ -485,6 +507,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             }
         }else if(e.getKeyCode() == KeyEvent.VK_Z){
             this.faseAtual.clear();
+            faseAt =3;
             setAllChar4();
         }
 
