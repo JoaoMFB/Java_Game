@@ -18,7 +18,7 @@ public abstract class Personagem implements Serializable {
     protected boolean bMortal;       /*Se encostar, morre?*/
     protected boolean isBox;
     protected boolean isMonster;
-
+    protected boolean isArrow;
     protected boolean isKey;
     protected boolean isLife;
 
@@ -36,6 +36,7 @@ public abstract class Personagem implements Serializable {
         this.isKey = false;
         this.isDoor = false;
         this.isMonster = false;
+        this.isArrow = false;
         this.isLife = false;
         this.isDiamond = false;
 
@@ -93,6 +94,8 @@ public abstract class Personagem implements Serializable {
     public boolean isbDoor() { return isDoor; }
 
     public boolean isbMonster(){return isMonster;}
+    
+    public boolean isbArrow(){return isArrow;}
 
     public boolean isbDiamond(){return isDiamond;}
 

@@ -52,6 +52,15 @@ public class ControleDeJogo {
                             System.out.println("Você morreu e não tem mais vidas, pressione 'R' para recomeçar a fase!\n");
                         }
                     }
+                    if(pIesimoPersonagem.isbArrow()) {
+                        if(hero.getQttLifes() != 0){
+                            resetaHeroi(hero);
+                        }
+                        else{
+                            hero.changeImg("");
+                            System.out.println("Você morreu e não tem mais vidas, pressione 'R' para recomeçar a fase!\n");
+                        }
+                    }
                     if(pIesimoPersonagem.isbDiamond()){
                         System.out.println("Parabéns, você liberou a próxima fase! Aperte 'P' para continuar ou 'R' para refazer.\n");
                         setFinished(true);
