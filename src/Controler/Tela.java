@@ -32,6 +32,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
     private Hero hero;
     private Diamond diamond;
+    private Ghast ghast;
+    private Arco arco;
     private ArrayList<Personagem> faseAtual;
     private ControleDeJogo cj = new ControleDeJogo();
     private Graphics g2;
@@ -233,7 +235,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                 {0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0},
                 {0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-                {2, 0, 0, 1, 5, 0, 0, 0, 0, 0, 7}
+                {2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 7}
         };
 
         Wall Par[] = new Wall[121]; //index 1
@@ -293,12 +295,12 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
     public void setAllChar4(){
         int[][] matriz = {
-                {9, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0},
+                {9, 1, 1, 1, 0, 1, 1, 1, 0, 0, 66},
                 {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0},
                 {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0},
                 {0, 1, 1, 1, 6, 1, 0, 1, 0, 1, 0},
                 {0, 1, 3, 1, 0, 1, 0, 1, 0, 1, 0},
-                {0, 1, 0, 4, 0, 1, 0, 0, 0, 1, 0},
+                {33, 1, 0, 4, 0, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0 , 1, 5, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
@@ -356,11 +358,23 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                     diamond.setPosicao(i, j);
                     this.addPersonagem(diamond);
                 }
+                if(matriz[i][j] == 66){
+                    ghast = new Ghast("ghast.png");
+                    ghast.setPosicao(i,j);
+                    this.addPersonagem(ghast);
+                }
+                if(matriz[i][j] == 33){
+                    arco = new Arco("arco.png");
+                    arco.setPosicao(i, j);
+                    this.addPersonagem(arco);
+                }
                 
             }
         }
 
     }
+    
+    
     public boolean ehPosicaoValida(Posicao p){
         return cj.ehPosicaoValida(this.faseAtual, p);
     }
@@ -419,12 +433,18 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             this.faseAtual.clear();
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             hero.moveUp();
+            ghast.moveUp();
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             hero.moveDown();
+            ghast.moveDown();
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             hero.moveLeft();
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             hero.moveRight();
+        } else if (e.getKeyCode() == KeyEvent.VK_K){
+            if(hero.getArco() == true){
+                hero.atirar();
+            }
         } else if (e.getKeyCode() == KeyEvent.VK_R){
             this.faseAtual.clear();
             setAllChar();
@@ -448,6 +468,9 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             } else {
                 System.out.println("Termine a fase antes");
             }
+        }else if(e.getKeyCode() == KeyEvent.VK_Z){
+            this.faseAtual.clear();
+            setAllChar4();
         }
 
 

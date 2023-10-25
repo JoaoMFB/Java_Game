@@ -20,7 +20,7 @@ public class Hero extends Personagem implements Serializable{
     public void voltaAUltimaPosicao(){
         this.pPosicao.volta();
     }
-
+    private boolean arco = false;
     private int qttKeys = 0;
     private int qttLifes = 0;
     private int direcao = -1; // -1 significa que o herói não se moveu ainda
@@ -34,7 +34,15 @@ public class Hero extends Personagem implements Serializable{
         }
         return false;       
     }
-
+    
+    public boolean getArco(){
+        return arco;
+    }
+    
+    public void setArco(boolean equipado){
+        this.arco = equipado;
+    }
+    
     public int getQttKeys() {
         return qttKeys;
     }
@@ -96,4 +104,9 @@ public class Hero extends Personagem implements Serializable{
         return false;
     }    
     
+    public void atirar(){
+        Arrow arrow = new Arrow("arrowright.png", 3);
+        arrow.setPosicao(pPosicao.getLinha(),pPosicao.getColuna()+1);
+        Desenho.acessoATelaDoJogo().addPersonagem(arrow);
+    }
 }

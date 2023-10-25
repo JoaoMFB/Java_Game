@@ -3,8 +3,11 @@ package Controler;
 import Modelo.Personagem;
 import Modelo.Hero;
 import Modelo.Box;
+import Modelo.Ghast;
 import auxiliar.Posicao;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ControleDeJogo {
     protected boolean isFinished;
@@ -20,6 +23,8 @@ public class ControleDeJogo {
         Personagem pIesimoPersonagem;
         int keys = hero.getQttKeys();
         int life = hero.getQttLifes();
+        int posGhast = procuraGhast(umaFase);
+        
         boolean finish = false;
         for (int i = 1; i < umaFase.size(); i++) {
             pIesimoPersonagem = umaFase.get(i);
@@ -69,7 +74,9 @@ public class ControleDeJogo {
                             System.out.println("Parabéns, você zerou o jogo!");
                         }
                     }
-                }
+                    if(pIesimoPersonagem.isbArco()){
+                        hero.setArco(true);
+                    }
                 if(pIesimoPersonagem.isbDoor()){
                     if(hero.getQttKeys() >= 1){
                         pIesimoPersonagem.changeImg("open_door.png");
@@ -81,7 +88,36 @@ public class ControleDeJogo {
                 }
             }
         }
+    
+            if(posGhast > -1){
+            Ghast ghast = (Ghast) umaFase.get(posGhast);
+            System.out.println("oi");
+                if (ghast.getPosicao().igual(pIesimoPersonagem.getPosicao())) {
+                        if(pIesimoPersonagem.isbArrow()){
+                            System.out.println("acerto");
+                            ghast.setQttLifes(ghast.getQttLifes()-1);
+                            if(ghast.getQttLifes() == 0){
+                                ghast.changeImg("");
+                            }
+                        }
+                    
+                } 
+        }
     }
+}
+    public int procuraGhast(ArrayList<Personagem> umaFase){
+        for(int i = 1; i < umaFase.size(); i++){
+            if(umaFase.get(i).isbGhast()){
+                return i;
+            }
+            else{
+                return -1;
+            }
+        }
+        return -1;
+    }
+
+            
     public void resetaHeroi(Hero hero){
         hero.setPosicao(0, 0);
         hero.setQttLifes(hero.getQttLifes()-1);
