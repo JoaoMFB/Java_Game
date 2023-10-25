@@ -62,8 +62,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                 {0, 1, 0, 1, 6, 1, 0, 1, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-                {0, 1, 0, 1, 5, 1, 0, 0, 0, 1, 0},
-                {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
+                {0, 1, 0, 1, 5, 1, 0, 14, 0, 1, 0},
+                {0, 1, 8, 1, 0, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0, 4, 0, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
                 {2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 7}
@@ -75,6 +75,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         Door Door[] = new Door[12]; //index 4
         Monster Monster[] = new Monster[12]; //index 5
         Life Life[] = new Life[12]; //index 4
+        Zombie Zombie[] = new Zombie[12];
+        Skeleton Skeleton[] = new Skeleton[12];
 
 
         for (int i = 0; i < 11; i++){
@@ -119,7 +121,31 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                     diamond.setPosicao(i, j);
                     this.addPersonagem(diamond);
                 }
-
+                if(matriz[i][j] == 8){
+                    Zombie[i] = new Zombie("zombie.png");
+                    Zombie[i].setPosicao(i, j);
+                    this.addPersonagem(Zombie[i]);
+                }
+                if(matriz[i][j] == 11){
+                    Skeleton[i] = new Skeleton("skeleton.png", 1);
+                    Skeleton[i].setPosicao(i, j);
+                    this.addPersonagem(Skeleton[i]);
+                }
+                if(matriz[i][j] == 12){
+                    Skeleton[i] = new Skeleton("skeleton.png", 2);
+                    Skeleton[i].setPosicao(i, j);
+                    this.addPersonagem(Skeleton[i]);
+                }
+                if(matriz[i][j] == 13){
+                    Skeleton[i] = new Skeleton("skeleton.png", 3);
+                    Skeleton[i].setPosicao(i, j);
+                    this.addPersonagem(Skeleton[i]);
+                }
+                if(matriz[i][j] == 14){
+                    Skeleton[i] = new Skeleton("skeleton.png", 4);
+                    Skeleton[i].setPosicao(i, j);
+                    this.addPersonagem(Skeleton[i]);
+                }
             }
         }
 
@@ -203,7 +229,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                 {0, 1, 1, 1, 6, 1, 0, 1, 0, 1, 0},
                 {0, 1, 3, 1, 0, 1, 0, 1, 0, 1, 0},
                 {0, 1, 0, 4, 0, 1, 0, 0, 0, 1, 0},
-                {0, 1, 0 , 1, 5, 1, 0, 0, 0, 1, 0},
+                {0, 1, 0, 1, 5, 1, 0, 0, 0, 1, 0},
                 {0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0},
                 {0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0},
                 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
@@ -330,7 +356,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                     diamond.setPosicao(i, j);
                     this.addPersonagem(diamond);
                 }
-
+                
             }
         }
 

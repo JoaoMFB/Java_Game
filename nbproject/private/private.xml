@@ -4,11 +4,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/João%20Marcelo/Documents/USP/4°%20semestre/POO/PrototipoProjetoPOO/src/Auxiliar/Consts.java</file>
-            <file>file:/C:/Users/João%20Marcelo/Documents/USP/4°%20semestre/POO/PrototipoProjetoPOO/src/Auxiliar/Posicao.java</file>
-            <file>file:/C:/Users/João%20Marcelo/Documents/USP/4°%20semestre/POO/PrototipoProjetoPOO/src/Auxiliar/Desenho.java</file>
-            <file>file:/C:/Users/João%20Marcelo/Documents/USP/4°%20semestre/POO/PrototipoProjetoPOO/src/Modelo/Hero.java</file>
-            <file>file:/C:/Users/João%20Marcelo/Documents/USP/4°%20semestre/POO/PrototipoProjetoPOO/src/Modelo/Caveira.java</file>
+            <file>file:/C:/Users/MICROSOFT/important/uni/jogo%20poo/poo/src/Auxiliar/Posicao.java</file>
+            <file>file:/C:/Users/MICROSOFT/important/uni/jogo%20poo/poo/src/Controler/ControleDeJogo.java</file>
+            <file>file:/C:/Users/MICROSOFT/important/uni/jogo%20poo/poo/src/Auxiliar/Consts.java</file>
+            <file>file:/C:/Users/MICROSOFT/important/uni/jogo%20poo/poo/src/Modelo/Personagem.java</file>
+            <file>file:/C:/Users/MICROSOFT/important/uni/jogo%20poo/poo/src/Modelo/Hero.java</file>
+            <file>file:/C:/Users/MICROSOFT/important/uni/jogo%20poo/poo/src/Auxiliar/Desenho.java</file>
+            <file>file:/C:/Users/MICROSOFT/important/uni/jogo%20poo/poo/src/Modelo/Door.java</file>
+            <file>file:/C:/Users/MICROSOFT/important/uni/jogo%20poo/poo/src/Main.java</file>
+            <file>file:/C:/Users/MICROSOFT/important/uni/jogo%20poo/poo/src/Controler/Tela.java</file>
         </group>
     </open-files>
 </project-private>
