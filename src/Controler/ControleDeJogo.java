@@ -67,11 +67,14 @@ public class ControleDeJogo {
                         }
                     }
                     if(pIesimoPersonagem.isbDiamond()){
-                        System.out.println("Parabéns, você liberou a próxima fase! Aperte 'P' para continuar ou 'R' para refazer.\n");
                         setFinished(true);
                         this.setFase(this.getFase()+1);
                         if(this.getFase() == 4){
                             System.out.println("Parabéns, você zerou o jogo!");
+                        }
+                        else{
+                            System.out.println("Parabéns, você liberou a próxima fase! Aperte 'P' para continuar ou 'R' para refazer.\n");
+
                         }
                     }
                     if(pIesimoPersonagem.isbArco()){
