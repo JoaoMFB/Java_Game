@@ -21,6 +21,7 @@ public class Arrow extends Personagem implements Serializable{
     
     public void autoDesenho() {
         super.autoDesenho();
+
         if(arrowDirection == 1){
             if(!this.moveUp())
                 Desenho.acessoATelaDoJogo().removePersonagem(this);

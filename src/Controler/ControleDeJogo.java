@@ -21,104 +21,85 @@ public class ControleDeJogo {
     public void processaTudo(ArrayList<Personagem> umaFase) {
         Hero hero = (Hero) umaFase.get(0);
         Personagem pIesimoPersonagem;
+        Personagem pJesimoPersonagem;
         int keys = hero.getQttKeys();
         int life = hero.getQttLifes();
-        int posGhast = procuraGhast(umaFase);
-        
+
         boolean finish = false;
         for (int i = 1; i < umaFase.size(); i++) {
-            pIesimoPersonagem = umaFase.get(i);
-            if (hero.getPosicao().igual(pIesimoPersonagem.getPosicao())) {
-                if (pIesimoPersonagem.isbTransponivel()) {
-                    if (pIesimoPersonagem.isbKey()){
-                        keys++;
-                        hero.setQttKeys(keys);
-                        System.out.format("Chaves coletadas: %d\ns", keys);
-                    }
-                    if(pIesimoPersonagem.isbBox()){
-                        int direcaoHero = hero.getDirecao();
-                        pIesimoPersonagem.moveBox(direcaoHero);
-                    }
-                    if (pIesimoPersonagem.isbLife()){
-                        life++;
-                        hero.setQttLifes(life);
-                        System.out.format("Vidas atuais: %d\n", life);
-                    }
-                    if(!pIesimoPersonagem.isbBox()) {
-                        umaFase.remove(pIesimoPersonagem);
-                    }
-                    //Implementar a morte do hero (reset) quando entra no monstro.
-                    if(pIesimoPersonagem.isbMonster()) {
-                        if(hero.getQttLifes() != 0){
-                            resetaHeroi(hero);
-                        }
-                        else{
-                            hero.changeImg("");
-                            System.out.println("Você morreu e não tem mais vidas, pressione 'R' para recomeçar a fase!\n");
+            for (int j = 1; j < umaFase.size(); j++){
+                pJesimoPersonagem = umaFase.get(j);
+                pIesimoPersonagem = umaFase.get(i);
+                if(pIesimoPersonagem != pJesimoPersonagem) {
+                    if (pIesimoPersonagem.getPosicao().igual(pJesimoPersonagem.getPosicao())) {
+                        if (pIesimoPersonagem.isbArrow() && pJesimoPersonagem.isbGhast()) {
+                            umaFase.remove(pJesimoPersonagem);
                         }
                     }
-                    if(pIesimoPersonagem.isbArrow()) {
-                        if(hero.getQttLifes() != 0){
-                            resetaHeroi(hero);
+                }
+                if (hero.getPosicao().igual(pIesimoPersonagem.getPosicao())) {
+                    if (pIesimoPersonagem.isbTransponivel()) {
+                        if (pIesimoPersonagem.isbKey()) {
+                            keys++;
+                            hero.setQttKeys(keys);
+                            System.out.format("Chaves coletadas: %d\n", keys);
                         }
-                        else{
-                            hero.changeImg("");
-                            System.out.println("Você morreu e não tem mais vidas, pressione 'R' para recomeçar a fase!\n");
+                        if (pIesimoPersonagem.isbBox()) {
+                            int direcaoHero = hero.getDirecao();
+                            pIesimoPersonagem.moveBox(direcaoHero);
                         }
-                    }
-                    if(pIesimoPersonagem.isbDiamond()){
-                        setFinished(true);
-                        this.setFase(this.getFase()+1);
-                        if(this.getFase() == 4){
-                            System.out.println("Parabéns, você zerou o jogo!");
+                        if (pIesimoPersonagem.isbLife()) {
+                            life++;
+                            hero.setQttLifes(life);
+                            System.out.format("Vidas atuais: %d\n", life);
                         }
-                        else{
-                            System.out.println("Parabéns, você liberou a próxima fase! Aperte 'P' para continuar ou 'R' para refazer.\n");
+                        if (!pIesimoPersonagem.isbBox()) {
+                            umaFase.remove(pIesimoPersonagem);
+                        }
+                        // Implementar a morte do hero (reset) quando entra no monstro.
+                        if (pIesimoPersonagem.isbMonster()) {
+                            if (hero.getQttLifes() != 0) {
+                                resetaHeroi(hero);
+                            } else {
+                                hero.changeImg("");
+                                System.out.println("Você morreu e não tem mais vidas, pressione 'R' para recomeçar a fase!\n");
+                            }
+                        }
+                        if (pIesimoPersonagem.isbArrow()) {
+                            if (hero.getQttLifes() != 0) {
+                                resetaHeroi(hero);
+                            } else {
+                                hero.changeImg("");
+                                System.out.println("Você morreu e não tem mais vidas, pressione 'R' para recomeçar a fase!\n");
+                            }
+                        }
+                        if (pIesimoPersonagem.isbDiamond()) {
+                            setFinished(true);
+                            this.setFase(this.getFase() + 1);
+                            if (this.getFase() == 4) {
+                                System.out.println("Parabéns, você zerou o jogo!");
+                            } else {
+                                System.out.println("Parabéns, você liberou a próxima fase! Aperte 'P' para continuar ou 'R' para refazer.\n");
 
+                            }
                         }
-                    }
-                    if(pIesimoPersonagem.isbArco()){
-                        hero.setArco(true);
-                    }
-                if(pIesimoPersonagem.isbDoor()){
-                    if(hero.getQttKeys() >= 1){
-                        pIesimoPersonagem.changeImg("open_door.png");
-                        pIesimoPersonagem.autoDesenho();
-                    }
-                    else{
-                        hero.voltaAUltimaPosicao();
+                        if (pIesimoPersonagem.isbArco()) {
+                            hero.setArco(true);
+                        }
+                        if (pIesimoPersonagem.isbDoor()) {
+                            if (hero.getQttKeys() >= 1) {
+                                pIesimoPersonagem.changeImg("open_door.png");
+                                pIesimoPersonagem.autoDesenho();
+                            } else {
+                                hero.voltaAUltimaPosicao();
+                            }
+                        }
                     }
                 }
             }
         }
-    
-            if(posGhast > -1){
-            Ghast ghast = (Ghast) umaFase.get(posGhast);
-            System.out.println("oi");
-                if (ghast.getPosicao().igual(pIesimoPersonagem.getPosicao())) {
-                        if(pIesimoPersonagem.isbArrow()){
-                            System.out.println("acerto");
-                            ghast.setQttLifes(ghast.getQttLifes()-1);
-                            if(ghast.getQttLifes() == 0){
-                                ghast.changeImg("");
-                            }
-                        }
-                    
-                } 
-        }
     }
-}
-    public int procuraGhast(ArrayList<Personagem> umaFase){
-        for(int i = 1; i < umaFase.size(); i++){
-            if(umaFase.get(i).isbGhast()){
-                return i;
-            }
-            else{
-                return -1;
-            }
-        }
-        return -1;
-    }
+
 
             
     public void resetaHeroi(Hero hero){
