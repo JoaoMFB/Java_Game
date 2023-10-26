@@ -16,7 +16,7 @@ public abstract class Personagem implements Serializable {
     protected Posicao pPosicao;
     protected boolean bTransponivel; /*Pode passar por cima?*/
     protected boolean bMortal;       /*Se encostar, morre?*/
-    protected boolean isBox;
+    protected boolean isPig;
     protected boolean isMonster;
     protected boolean isArrow;
     protected boolean isKey;
@@ -26,12 +26,15 @@ public abstract class Personagem implements Serializable {
     protected boolean isDiamond;
     protected boolean isArco;
 
+    protected boolean isEspada;
+
+
 
     protected Personagem(String sNomeImagePNG) {
         this.pPosicao = new Posicao(1, 1);
         this.bTransponivel = true;
         this.bMortal = false;
-        this.isBox = false;
+        this.isPig = false;
         this.isKey = false;
         this.isDoor = false;
         this.isMonster = false;
@@ -39,6 +42,7 @@ public abstract class Personagem implements Serializable {
         this.isLife = false;
         this.isDiamond = false;
         this.isArco = false;
+        this.isEspada = false;
         this.isGhast = false;
         
         try {
@@ -88,11 +92,12 @@ public abstract class Personagem implements Serializable {
         return isLife;
     }
 
-    public boolean isbBox(){
-        return isBox;
+    public boolean isbPig(){
+        return isPig;
     }
 
     public boolean isbDoor() { return isDoor; }
+    public boolean isbEspada() { return isEspada; }
 
     public boolean isbMonster(){return isMonster;}
     

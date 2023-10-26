@@ -25,6 +25,10 @@ public class Hero extends Personagem implements Serializable{
     private int qttLifes = 0;
     private int direcao = -1; // -1 significa que o herói não se moveu ainda
 
+    private boolean hasSword = false;
+    private char lastDirection; // 'U' para cima, 'D' para baixo, 'L' para esquerda, 'R' para direita
+
+
     public boolean setPosicao(int linha, int coluna){
         if(this.pPosicao.setPosicao(linha, coluna)){
             if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(this.getPosicao())) {
@@ -34,7 +38,15 @@ public class Hero extends Personagem implements Serializable{
         }
         return false;       
     }
-    
+
+    public boolean hasSword() {
+        return hasSword;
+    }
+
+    public void setHasSword(boolean hasSword) {
+        this.hasSword = hasSword;
+    }
+
     public boolean getArco(){
         return arco;
     }
@@ -67,6 +79,7 @@ public class Hero extends Personagem implements Serializable{
         }
         return true;       
     }
+
     public int getDirecao() {
         return direcao;
     }
@@ -104,9 +117,24 @@ public class Hero extends Personagem implements Serializable{
         return false;
     }    
     
-    public void atirar(){
+    public void shootRight(){
         Arrow arrow = new Arrow("arrowright.png", 3);
         arrow.setPosicao(pPosicao.getLinha(),pPosicao.getColuna()+1);
+        Desenho.acessoATelaDoJogo().addPersonagem(arrow);
+    }
+    public void shootLeft(){
+        Arrow arrow = new Arrow("arrowleft.png", 4);
+        arrow.setPosicao(pPosicao.getLinha(),pPosicao.getColuna()-1);
+        Desenho.acessoATelaDoJogo().addPersonagem(arrow);
+    }
+    public void shootUp(){
+        Arrow arrow = new Arrow("arrowup.png", 1);
+        arrow.setPosicao(pPosicao.getLinha() - 1,pPosicao.getColuna());
+        Desenho.acessoATelaDoJogo().addPersonagem(arrow);
+    }
+    public void shootDown(){
+        Arrow arrow = new Arrow("arrowdown.png", 2);
+        arrow.setPosicao(pPosicao.getLinha() + 1,pPosicao.getColuna());
         Desenho.acessoATelaDoJogo().addPersonagem(arrow);
     }
 }

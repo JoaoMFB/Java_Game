@@ -1,15 +1,15 @@
 package Modelo;
 
 import java.io.Serializable;
-import auxiliar.Posicao;
-public class Box extends Personagem implements Serializable {
+
+public class Pig extends Personagem implements Serializable {
 
 
 
 
-    public Box(String sNomeImagePNG) {
+    public Pig(String sNomeImagePNG) {
         super(sNomeImagePNG);
-        this.isBox = true;
+        this.isPig = true;
         this.setbTransponivel(true);
     }
     public void autoDesenho(){
