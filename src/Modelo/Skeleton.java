@@ -20,6 +20,7 @@ public class Skeleton extends Personagem implements Serializable{
         this.bTransponivel = false;
         this.iContaIntervalos = 0;
         this.arrowDirection = arrowDirection;
+        this.isMonster = true;
     }
 
     public void autoDesenho() {

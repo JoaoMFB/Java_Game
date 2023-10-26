@@ -59,6 +59,7 @@ public class ControleDeJogo {
                         // Implementar a morte do hero (reset) quando entra no monstro.
                         if (pIesimoPersonagem.isbMonster()) {
                             if (hero.getQttLifes() != 0) {
+
                                 resetaHeroi(hero);
                             } else {
                                 hero.changeImg("");
@@ -90,8 +91,8 @@ public class ControleDeJogo {
                     }
                     if (pIesimoPersonagem.isbDoor()) {
                         if (hero.getQttKeys() >= 1) {
-                            pIesimoPersonagem.changeImg("open_door.png");
-                            pIesimoPersonagem.autoDesenho();
+                            umaFase.remove(umaFase.get(i));
+                            hero.setQttKeys(hero.getQttKeys()-1);
                         } else {
                             hero.voltaAUltimaPosicao();
                         }

@@ -58,23 +58,23 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
     public void setAllChar(){
         int[][] matriz = {
-                {9, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10},
-                {10, 0, 0, 4, 0, 0, 1, 1, 1, 0, 0, 0, 10},
-                {10, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 10},
-                {10, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 10},
-                {10, 0, 0, 1, 0, 6, 1, 0, 1, 0, 1, 0, 10},
-                {10, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 10},
-                {10, 0, 6, 1, 0, 0, 1, 0, 0, 0, 1, 0, 10},
-                {10, 3, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 10},
-                {10, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10},
-                {10, 0, 0, 16, 0, 0, 1, 0, 0, 0, 1, 0, 10},
-                {10, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10},
-                {10, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 7, 10},
-                {10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10}
+                {9,     0,      -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,      -1},
+                {-1,    0,      0,      4,      0,      15,     1,      33,      1,       12,     0,      0,      -1},
+                {-1,    0,      0,      1,      0,      0,      1,      0,      1,       0,      1,      0,      -1},
+                {-1,    0,      0,      1,      0,      0,      1,      0,      1,       0,      1,      0,      -1},
+                {-1,    0,      0,      1,      0,      0,      1,      0,      1,       0,      1,      0,      -1},
+                {-1,    0,      0,      1,      0,      0,      1,      4,      1,       0,      1,      0,      -1},
+                {-1,    0,      6,      1,      0,      0,      0,      0,      0,       0,      1,      0,      -1},
+                {-1,    3,      1,      1,      1,      1,      1,      0,      0,       0,      1,      0,      -1},
+                {-1,    0,      0,      0,      0,      0,      1,      0,      0,       0,      1,      0,      -1},
+                {-1,    0,      0,      16,     0,      0,      1,      0,      0,       0,      1,      0,      -1},
+                {-1,    0,      0,      0,      0,      0,      1,      0,      0,       0,      1,      1,      -1},
+                {-1,    0,      0,      0,      0,      2,      1,      0,      0,       2,      4,      7,      -1},
+                {-1,    -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,      -1,     -1}
         };
 
         Wall Par[] = new Wall[121]; //index 1
-        Wall Stone[] = new Wall[121]; //index 10
+        Wall Stone[] = new Wall[121]; //index -1
         Key Key[] = new Key[12]; //index 2
         Box Box[] = new Box[12]; //index 3
         Door Door[] = new Door[12]; //index 4
@@ -87,9 +87,14 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         for (int i = 0; i < 13; i++){
             for (int j = 0; j < 13; j++){
                 if(matriz[i][j] == 9){
-                    hero = new Hero("skoot.png");
+                    hero = new Hero("downSteve.png");
                     hero.setPosicao(0, 0);
                     this.addPersonagem(hero);
+                }
+                if(matriz[i][j] == -1){
+                    Stone[i] = new Wall("stone.png");
+                    Stone[i].setPosicao(i,j);
+                    this.addPersonagem(Stone[i]);
                 }
                 if(matriz[i][j] == 1){
                     Par[i] = new Wall("bricks.png");
@@ -131,11 +136,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                     Zombie[i].setPosicao(i, j);
                     this.addPersonagem(Zombie[i]);
                 }
-                if(matriz[i][j] == 10){
-                    Stone[i] = new Wall("stone.png");
-                    Stone[i].setPosicao(i,j);
-                    this.addPersonagem(Stone[i]);
-                }
+
                 if(matriz[i][j] == 11){
                     Skeleton[i] = new Skeleton("skeleton.png", 1);
                     Skeleton[i].setPosicao(i, j);
@@ -171,6 +172,11 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                     Zombie[i].setPosicao(i, j);
                     this.addPersonagem(Zombie[i]);
                 }
+                if(matriz[i][j] == 33){
+                    arco = new Arco("arco.png");
+                    arco.setPosicao(i, j);
+                    this.addPersonagem(arco);
+                }
             }
         }
 
@@ -178,17 +184,19 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
     public void setAllChar2(){
         int[][] matriz = {
-                {9, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1},
-                {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1},
-                {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1},
-                {0, 1, 1, 1, 6, 1, 0, 1, 0, 1, 1},
-                {0, 1, 3, 1, 0, 1, 0, 1, 0, 1, 0},
-                {0, 1, 0, 4, 0, 1, 0, 0, 0, 1, 0},
-                {0, 1, 0 , 1, 5, 1, 0, 0, 0, 1, 0},
-                {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-                {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-                {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-                {2, 0, 0, 1, 5, 0, 0, 0, 0, 0, 7}
+                {9, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, 0, 0, 4, 0, 0, 1, 1, 1, 0, 0, 0, -1},
+                {-1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, -1},
+                {-1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, -1},
+                {-1, 0, 0, 1, 0, 6, 1, 0, 1, 0, 1, 0, -1},
+                {-1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, -1},
+                {-1, 0, 6, 1, 0, 0, 1, 0, 0, 0, 1, 0, -1},
+                {-1, 3, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, -1},
+                {-1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1},
+                {-1, 0, 0, 16, 0, 0, 1, 0, 0, 0, 1, 0, -1},
+                {-1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1},
+                {-1, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 7, -1},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
         };
 
         Wall Par[] = new Wall[121]; //index 1
@@ -196,15 +204,21 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         Box Box[] = new Box[12]; //index 3
         Door Door[] = new Door[12]; //index 4
         Monster Monster[] = new Monster[12]; //index 5
-        Life Life[] = new Life[12]; //index 4
+        Life Life[] = new Life[12]; //index 6
+        Wall Stone[] = new Wall[121]; //index 7
 
 
         for (int i = 0; i < 11; i++){
             for (int j = 0; j < 11; j++){
                 if(matriz[i][j] == 9){
-                    hero = new Hero("skoot.png");
+                    hero = new Hero("downSteve.png");
                     hero.setPosicao(0, 0);
                     this.addPersonagem(hero);
+                }
+                if(matriz[i][j] == -1){
+                    Stone[i] = new Wall("stone.png");
+                    Stone[i].setPosicao(i,j);
+                    this.addPersonagem(Stone[i]);
                 }
                 if(matriz[i][j] == 1){
                     Par[i] = new Wall("bricks.png");
@@ -241,6 +255,11 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                     diamond.setPosicao(i, j);
                     this.addPersonagem(diamond);
                 }
+                if(matriz[i][j] == 33){
+                    arco = new Arco("arco.png");
+                    arco.setPosicao(i, j);
+                    this.addPersonagem(arco);
+                }
 
             }
         }
@@ -248,17 +267,19 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
     public void setAllChar3(){
         int[][] matriz = {
-                {9, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0},
-                {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0},
-                {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0},
-                {0, 1, 1, 1, 6, 1, 0, 1, 0, 1, 0},
-                {0, 1, 3, 1, 0, 1, 0, 1, 0, 1, 0},
-                {0, 1, 0, 4, 0, 1, 0, 0, 0, 1, 0},
-                {0, 1, 0, 1, 5, 1, 0, 0, 0, 1, 0},
-                {0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0},
-                {0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0},
-                {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-                {2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 7}
+                {9, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, 0, 0, 4, 0, 0, 1, 1, 1, 0, 0, 0, -1},
+                {-1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, -1},
+                {-1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, -1},
+                {-1, 0, 0, 1, 0, 6, 1, 0, 1, 0, 1, 0, -1},
+                {-1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, -1},
+                {-1, 0, 6, 1, 0, 0, 1, 0, 0, 0, 1, 0, -1},
+                {-1, 3, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, -1},
+                {-1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1},
+                {-1, 0, 0, 16, 0, 0, 1, 0, 0, 0, 1, 0, -1},
+                {-1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1},
+                {-1, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 7, -1},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
         };
 
         Wall Par[] = new Wall[121]; //index 1
@@ -266,15 +287,21 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         Box Box[] = new Box[12]; //index 3
         Door Door[] = new Door[12]; //index 4
         Monster Monster[] = new Monster[12]; //index 5
-        Life Life[] = new Life[12]; //index 4
+        Life Life[] = new Life[12]; //index 6
+        Wall Stone[] = new Wall[121]; //index 7
 
 
         for (int i = 0; i < 11; i++){
             for (int j = 0; j < 11; j++){
                 if(matriz[i][j] == 9){
-                    hero = new Hero("skoot.png");
+                    hero = new Hero("downSteve.png");
                     hero.setPosicao(0, 0);
                     this.addPersonagem(hero);
+                }
+                if(matriz[i][j] == -1){
+                    Stone[i] = new Wall("stone.png");
+                    Stone[i].setPosicao(i,j);
+                    this.addPersonagem(Stone[i]);
                 }
                 if(matriz[i][j] == 1){
                     Par[i] = new Wall("bricks.png");
@@ -318,19 +345,19 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
     public void setAllChar4(){
         int[][] matriz = {
-                {9, 0, 10, 10, 10, 10, 10, 10, 10, 66, 10, 10, 10},
-                {10, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 10},
-                {10, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 10},
-                {10, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 10},
-                {10, 0, 1, 1, 1, 6, 1, 0, 1, 0, 1, 0, 10},
-                {10, 0, 1, 3, 1, 0, 1, 0, 1, 0, 1, 0, 10},
-                {10, 33, 1, 0, 4, 0, 1, 0, 0, 0, 1, 0, 10},
-                {10, 0, 1, 0 , 1, 5, 1, 0, 0, 0, 1, 0, 10},
-                {10, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 10},
-                {10, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 10},
-                {10, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 10},
-                {10, 2, 0, 0, 1, 5, 0, 0, 0, 0, 0, 7, 10},
-                {10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10}
+                {9, 0, -1, -1, -1, -1, -1, -1, -1, 66, -1, -1, -1},
+                {-1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, -1},
+                {-1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, -1},
+                {-1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, -1},
+                {-1, 0, 1, 1, 1, 6, 1, 0, 1, 0, 1, 0, -1},
+                {-1, 0, 1, 3, 1, 0, 1, 0, 1, 0, 1, 0, -1},
+                {-1, 33, 1, 0, 4, 0, 1, 0, 0, 0, 1, 0, -1},
+                {-1, 0, 1, 0 , 1, 5, 1, 0, 0, 0, 1, 0, -1},
+                {-1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, -1},
+                {-1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, -1},
+                {-1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, -1},
+                {-1, 2, 0, 0, 1, 5, 0, 0, 0, 0, 0, 7, -1},
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
         };
 
         Wall Par[] = new Wall[121]; //index 1
@@ -338,15 +365,21 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         Box Box[] = new Box[12]; //index 3
         Door Door[] = new Door[12]; //index 4
         Monster Monster[] = new Monster[12]; //index 5
-        Life Life[] = new Life[12]; //index 4
+        Life Life[] = new Life[12]; //index 6
+        Wall Stone[] = new Wall[121]; //index 7
 
 
         for (int i = 0; i < 13; i++){
             for (int j = 0; j < 13; j++){
                 if(matriz[i][j] == 9){
-                    hero = new Hero("skoot.png");
+                    hero = new Hero("downSteve.png");
                     hero.setPosicao(0, 0);
                     this.addPersonagem(hero);
+                }
+                if(matriz[i][j] == -1){
+                    Stone[i] = new Wall("stone.png");
+                    Stone[i].setPosicao(i,j);
+                    this.addPersonagem(Stone[i]);
                 }
                 if(matriz[i][j] == 1){
                     Par[i] = new Wall("bricks.png");
@@ -458,6 +491,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             this.faseAtual.clear();
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             hero.moveUp();
+            hero.changeImg("upSteve.png");
             if(faseAt == 3){
                 ghast.moveUp();
             }
@@ -466,6 +500,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             hero.moveDown();
+            hero.changeImg("downSteve.png");
             if(faseAt == 3){
                 ghast.moveDown();
             }
@@ -473,8 +508,10 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
 
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            hero.changeImg("leftSteve.png");
             hero.moveLeft();
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            hero.changeImg("rightSteve.png");
             hero.moveRight();
         } else if (e.getKeyCode() == KeyEvent.VK_K){
             if(hero.getArco()){
