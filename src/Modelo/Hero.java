@@ -24,6 +24,7 @@ public class Hero extends Personagem implements Serializable{
     private int qttKeys = 0;
     private int qttLifes = 0;
     private int direcao = -1; // -1 significa que o herói não se moveu ainda
+    private int attackDirection = 0;
 
     private boolean hasSword = false;
     private char lastDirection; // 'U' para cima, 'D' para baixo, 'L' para esquerda, 'R' para direita
@@ -36,7 +37,18 @@ public class Hero extends Personagem implements Serializable{
             }
             return true;
         }
-        return false;       
+        return false;
+    }
+
+
+
+    public int getAttackDirection() {
+        return attackDirection;
+    }
+
+    public void setAttackDirection(int attack) {
+        this.attackDirection = attack;
+
     }
 
     public boolean hasSword() {

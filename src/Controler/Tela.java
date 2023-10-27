@@ -31,6 +31,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     private ControleDeJogo cj = new ControleDeJogo();
     private Graphics g2;
     private int faseAt;
+
+
     public Tela() {
         Desenho.setCenario(this);
         initComponents();
@@ -48,6 +50,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
         setAllChar();
 
+
     }
     public void setAllChar(){
         int[][] matriz = {
@@ -60,7 +63,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                 {-1,    0,      6,      1,      0,      0,      0,      0,      0,       0,      1,      34,      -1},
                 {-1,    3,      1,      1,      1,      1,      1,      0,      0,       0,      1,      0,      -1},
                 {-1,    0,      0,      0,      0,      0,      1,      0,      0,       0,      1,      0,      -1},
-                {-1,    0,      0,      16,     0,      0,      1,      0,      0,       0,      1,      0,      -1},
+                {-1,    0,      0,      16,     0,      0,      1,      0,      12,       0,      1,      0,      -1},
                 {-1,    0,      0,      0,      0,      0,      1,      0,      0,       0,      1,      0,      -1},
                 {-1,    0,      0,      0,      0,      2,      1,      0,      0,       2,      1,      7,      -1},
                 {-1,    -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,      -1,     -1}
@@ -489,76 +492,96 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             this.faseAtual.clear();
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             hero.moveUp();
-            if(hero.hasSword()){
+            if (hero.hasSword()) {
                 hero.changeImg("upSteveSword.png");
-            }
-            else{
+            } else {
                 hero.changeImg("upSteve.png");
             }
 
-            if(faseAt == 3){
+            if (faseAt == 3) {
                 ghast.moveUp();
             }
-
 
 
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             hero.moveDown();
             hero.changeImg("downSteve.png");
-            if(hero.hasSword()){
+            if (hero.hasSword()) {
                 hero.changeImg("downSteveSword.png");
-            }
-            else{
+            } else {
                 hero.changeImg("downSteve.png");
             }
 
-            if(faseAt == 3){
+            if (faseAt == 3) {
                 ghast.moveDown();
             }
 
 
-
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             hero.changeImg("leftSteve.png");
-            if(hero.hasSword()){
+            if (hero.hasSword()) {
                 hero.changeImg("leftSteveSword.png");
-            }
-            else{
+            } else {
                 hero.changeImg("leftSteve.png");
             }
             hero.moveLeft();
 
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            if(hero.hasSword()){
+            if (hero.hasSword()) {
                 hero.changeImg("rightSteveSword.png");
-            }
-            else{
+            } else {
                 hero.changeImg("rightSteve.png");
             }
 
             hero.moveRight();
-        } else if (e.getKeyCode() == KeyEvent.VK_K){
+        } else if (e.getKeyCode() == KeyEvent.VK_W) {
             if(hero.getArco()){
-                int direcao = hero.getDirecao();
-                switch (direcao){
+                hero.changeImg("upSteve.png");
+                hero.shootUp();
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_A) {
+            if(hero.getArco()){
+                hero.changeImg("leftSteve.png");
+                hero.shootLeft();
+            }
+
+        } else if (e.getKeyCode() == KeyEvent.VK_S) {
+            if(hero.getArco()){
+                hero.changeImg("downSteve.png");
+                hero.shootDown();
+            }
+
+        } else if (e.getKeyCode() == KeyEvent.VK_D) {
+            if(hero.getArco()){
+                hero.changeImg("rightSteve.png");
+                hero.shootRight();
+            }
+
+        } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            if(hero.hasSword()){
+                switch(hero.getAttackDirection()){
                     case (1):
-                        hero.shootUp();
+                        hero.changeImg("leftSteveSwordAttack.png");
+                        hero.setKilled(true);
                         break;
                     case (2):
-                        hero.shootDown();
+                        hero.changeImg("rightSteveSwordAttack.png");
+                        hero.setKilled(true);
                         break;
                     case (3):
-                        hero.shootRight();
+                        hero.changeImg("upSteveSwordAttack.png");
+                        hero.setKilled(true);
                         break;
                     case (4):
-                        hero.shootLeft();
+                        hero.changeImg("downSteveSwordAttack.png");
+                        hero.setKilled(true);
                         break;
                     default:
                         break;
                 }
             }
 
-        } else if (e.getKeyCode() == KeyEvent.VK_R){
+        }else if (e.getKeyCode() == KeyEvent.VK_R){
             this.faseAtual.clear();
             setAllChar();
         }else if(e.getKeyCode() == KeyEvent.VK_P) {

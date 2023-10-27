@@ -136,6 +136,14 @@ public abstract class Personagem implements Serializable {
             this.setbTransponivel(true);
         }
     }
+    private boolean killed = false;
+    public boolean hasKilled() {
+        return killed;
+    }
+
+    public void setKilled(boolean killed) {
+        this.killed = killed;
+    }
 
     public void autoDesenho(){
         Desenho.desenhar(this.iImage, this.pPosicao.getColuna(), this.pPosicao.getLinha());        

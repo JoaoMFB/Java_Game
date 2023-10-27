@@ -4,10 +4,15 @@ import Modelo.Personagem;
 import Modelo.Hero;
 import auxiliar.Posicao;
 import java.util.ArrayList;
+import java.lang.Math;
 
 public class ControleDeJogo {
     protected boolean isFinished;
     protected int fase = 0;
+    protected Posicao posicaoEsquerda;
+    protected Posicao posicaoDireita;
+    protected Posicao posicaoBaixo;
+    protected Posicao posicaoCima;
 
     public void desenhaTudo(ArrayList<Personagem> e){
         for(int i = 0; i < e.size(); i++){
@@ -18,10 +23,59 @@ public class ControleDeJogo {
         Hero hero = (Hero) umaFase.get(0);
         Personagem pIesimoPersonagem;
         Personagem pJesimoPersonagem;
+        Posicao posicaoHeroi = hero.getPosicao();
+        int linhaHeroi = posicaoHeroi.getLinha();
+        int colunaHeroi = posicaoHeroi.getColuna();
+        this.posicaoEsquerda = new Posicao(linhaHeroi, colunaHeroi -1);
+        this.posicaoDireita = new Posicao(linhaHeroi, colunaHeroi +1);
+        this.posicaoCima = new Posicao(linhaHeroi - 1, colunaHeroi);
+        this.posicaoBaixo = new Posicao(linhaHeroi + 1, colunaHeroi);
+
+        boolean monsterNearby = isMonsterNearby(umaFase, linhaHeroi, colunaHeroi);
+
+
+
+
         int keys = hero.getQttKeys();
         int life = hero.getQttLifes();
 
         boolean finish = false;
+        if (monsterNearby) {
+            int nearestMonsterDirection = getNearestMonsterDirection(umaFase, linhaHeroi, colunaHeroi);
+            hero.setAttackDirection(nearestMonsterDirection);
+
+        } else {
+            hero.setKilled(false);
+            hero.setAttackDirection(0); // Se não houver monstros por perto, o herói não ataca
+        }
+        if(hero.hasKilled()) {
+            if (hero.getAttackDirection() != 0) {
+                for (int i = 1; i < umaFase.size(); i++) {
+                    pIesimoPersonagem = umaFase.get(i);
+
+                    // Verifique se o herói está atacando na direção atual
+                    if (pIesimoPersonagem.isbMonster()) {
+                        if (this.posicaoEsquerda.igual(pIesimoPersonagem.getPosicao())) {
+                            // Remova o monstro da fase
+                            umaFase.remove(i);
+                        }
+                        else if (this.posicaoDireita.igual(pIesimoPersonagem.getPosicao())) {
+                            // Remova o monstro da fase
+                            umaFase.remove(i);
+                        }
+                        else if (this.posicaoCima.igual(pIesimoPersonagem.getPosicao())) {
+                            // Remova o monstro da fase
+                            umaFase.remove(i);
+                        }
+                        else if (this.posicaoBaixo.igual(pIesimoPersonagem.getPosicao())) {
+                            // Remova o monstro da fase
+                            umaFase.remove(i);
+                        }
+                    }
+                }
+            }
+        }
+
         //percorre o vetor de objetos
         for (int i = 1; i < umaFase.size(); i++) {
             pIesimoPersonagem = umaFase.get(i);
@@ -122,8 +176,6 @@ public class ControleDeJogo {
     }
 }
 
-
-            
     public void resetaHeroi(Hero hero){
         hero.setPosicao(0, 0);
         hero.setQttLifes(hero.getQttLifes()-1);
@@ -167,5 +219,53 @@ public class ControleDeJogo {
             }
         }        
         return true;
+    }
+    private boolean isMonsterNearby(ArrayList<Personagem> umaFase, int linha, int coluna) {
+        for (int i = 1; i < umaFase.size(); i++) {
+            Personagem pIesimoPersonagem = umaFase.get(i);
+
+            if (pIesimoPersonagem.isbMonster()) {
+                Posicao monsterPos = pIesimoPersonagem.getPosicao();
+                int distance = Math.abs(monsterPos.getLinha() - linha) + Math.abs(monsterPos.getColuna() - coluna);
+
+                if (distance == 1) {
+                    return true; // Tem um monstro imediatamente ao lado
+                }
+            }
+        }
+
+        return false; // Sem monstros por perto
+    }
+
+    // Se tem monstro por perto,verifica em qual das 4 posiçoes adjascentes ao heroi ele está
+    private int getNearestMonsterDirection(ArrayList<Personagem> umaFase, int linha, int coluna) {
+        int minDistance = Integer.MAX_VALUE;
+        int nearestDirection = 0;
+
+        for (int i = 1; i < umaFase.size(); i++) {
+            Personagem pIesimoPersonagem = umaFase.get(i);
+
+            if (pIesimoPersonagem.isbMonster()) {
+                Posicao monsterPos = pIesimoPersonagem.getPosicao();
+                int distance = Math.abs(monsterPos.getLinha() - linha) + Math.abs(monsterPos.getColuna() - coluna);
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+
+                    // verifica em qual das 4 posiçoes adjascentes ao heroi, o monstro esta
+                    if (monsterPos.getLinha() == linha - 1) {
+                        nearestDirection = 3; // ataca pra cima
+                    } else if (monsterPos.getLinha() == linha + 1) {
+                        nearestDirection = 4; // ataca pra baixo
+                    } else if (monsterPos.getColuna() == coluna - 1) {
+                        nearestDirection = 1; // ataca pra esquerda
+                    } else if (monsterPos.getColuna() == coluna + 1) {
+                        nearestDirection = 2; // ataca pra direita
+                    }
+                }
+            }
+        }
+
+        return nearestDirection;
     }
 }
