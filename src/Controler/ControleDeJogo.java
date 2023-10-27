@@ -21,7 +21,7 @@ public class ControleDeJogo {
             e.get(i).autoDesenho();
         }
     }
-    public void processaTudo(ArrayList<Personagem> umaFase) {
+    public int processaTudo(ArrayList<Personagem> umaFase) {
         Hero hero = (Hero) umaFase.get(0);
         Personagem pIesimoPersonagem;
         Personagem pJesimoPersonagem;
@@ -62,6 +62,10 @@ public class ControleDeJogo {
         }
         int keys = hero.getQttKeys();
         int life = hero.getQttLifes();
+        if(life < 0){
+            return -1;
+        }
+
 
 
 
@@ -159,11 +163,13 @@ public class ControleDeJogo {
                         if (hero.getQttLifes() != 0) {
 
                             resetaHeroi(hero);
+
                         } else {
                             hero.changeImg("");
 
 
                             System.out.println("Você morreu e não tem mais vidas, pressione 'R' para recomeçar a fase!\n");
+                            return -1;
                         }
                     }
 
@@ -175,17 +181,18 @@ public class ControleDeJogo {
                         } else {
                             hero.changeImg("");
                             System.out.println("Você morreu e não tem mais vidas, pressione 'R' para recomeçar a fase!\n");
+                            return -1;
                         }
                     }
                     if (pIesimoPersonagem.isbDiamond()) {
                         setFinished(true);
-                        this.setFase(this.getFase() + 1);
                         if (this.getFase() == 4) {
                             System.out.println("Parabéns, você zerou o jogo!");
                         } else {
                             System.out.println("Parabéns, você liberou a próxima fase! Aperte 'P' para continuar ou 'R' para refazer.\n");
 
                         }
+                        return 1;
                     }
                     if (pIesimoPersonagem.isbArco()) {
                         hero.setArco(true);
@@ -208,6 +215,7 @@ public class ControleDeJogo {
 
 
     }
+        return 0;
 }
 
     public void resetaHeroi(Hero hero){
