@@ -27,6 +27,8 @@ public class Hero extends Personagem implements Serializable{
     private int attackDirection = 0;
 
     private boolean hasSword = false;
+
+    private boolean isAnimating = false;
     private char lastDirection; // 'U' para cima, 'D' para baixo, 'L' para esquerda, 'R' para direita
 
 
@@ -49,6 +51,14 @@ public class Hero extends Personagem implements Serializable{
     public void setAttackDirection(int attack) {
         this.attackDirection = attack;
 
+    }
+
+    public boolean isAnimating() {
+        return isAnimating;
+    }
+
+    public void setAnimating(boolean animating) {
+        isAnimating = animating;
     }
 
     public boolean hasSword() {

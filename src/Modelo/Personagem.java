@@ -27,6 +27,7 @@ public abstract class Personagem implements Serializable {
     protected boolean isArco;
 
     protected boolean isEspada;
+    protected boolean isLifeCounter;
 
 
 
@@ -44,6 +45,7 @@ public abstract class Personagem implements Serializable {
         this.isArco = false;
         this.isEspada = false;
         this.isGhast = false;
+        this.isLifeCounter = false;
         
         try {
             iImage = new ImageIcon(new java.io.File(".").getCanonicalPath() + Consts.PATH + sNomeImagePNG);
@@ -84,7 +86,7 @@ public abstract class Personagem implements Serializable {
         this.bTransponivel = bTransponivel;
     }
 
-
+    public boolean isbLifeCounter(){return isLifeCounter;}
     public boolean isbKey(){
         return isKey;
     }

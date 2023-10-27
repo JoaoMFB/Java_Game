@@ -14,6 +14,8 @@ public class ControleDeJogo {
     protected Posicao posicaoBaixo;
     protected Posicao posicaoCima;
 
+
+
     public void desenhaTudo(ArrayList<Personagem> e){
         for(int i = 0; i < e.size(); i++){
             e.get(i).autoDesenho();
@@ -23,7 +25,9 @@ public class ControleDeJogo {
         Hero hero = (Hero) umaFase.get(0);
         Personagem pIesimoPersonagem;
         Personagem pJesimoPersonagem;
+        Personagem lifeCounter;
         Posicao posicaoHeroi = hero.getPosicao();
+
         int linhaHeroi = posicaoHeroi.getLinha();
         int colunaHeroi = posicaoHeroi.getColuna();
         this.posicaoEsquerda = new Posicao(linhaHeroi, colunaHeroi -1);
@@ -35,11 +39,33 @@ public class ControleDeJogo {
 
 
 
-
+        for(int i = 1; i < umaFase.size(); i++){
+            pIesimoPersonagem = umaFase.get(i);
+            if(pIesimoPersonagem.isbLifeCounter()){
+                switch(hero.getQttLifes()){
+                    case(0):
+                        pIesimoPersonagem.changeImg("life0.png");
+                        break;
+                    case (1):
+                        pIesimoPersonagem.changeImg("life1.png");
+                        break;
+                    case (2):
+                        pIesimoPersonagem.changeImg("life2.png");
+                        break;
+                    case (3):
+                        pIesimoPersonagem.changeImg("life3.png");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
         int keys = hero.getQttKeys();
         int life = hero.getQttLifes();
 
-        boolean finish = false;
+
+
+
         if (monsterNearby) {
             int nearestMonsterDirection = getNearestMonsterDirection(umaFase, linhaHeroi, colunaHeroi);
             hero.setAttackDirection(nearestMonsterDirection);
@@ -115,9 +141,15 @@ public class ControleDeJogo {
                         pIesimoPersonagem.moveBox(direcaoHero);
                     }
                     if (pIesimoPersonagem.isbLife()) {
-                        life++;
-                        hero.setQttLifes(life);
-                        System.out.format("Vidas atuais: %d\n", life);
+                        if(life <= 3){
+                            life++;
+                            hero.setQttLifes(life);
+                            System.out.format("Vidas atuais: %d\n", life);
+                        }
+                        else{
+                            System.out.println("Você atingiu a capacidade máxima de vidas (3)");
+                            System.out.println("Você atingiu a capacidade máxima de vidas (3)");
+                        }
                     }
                     if (!pIesimoPersonagem.isbPig() && !pIesimoPersonagem.isbMonster()) {
                         umaFase.remove(pIesimoPersonagem);
@@ -129,6 +161,8 @@ public class ControleDeJogo {
                             resetaHeroi(hero);
                         } else {
                             hero.changeImg("");
+
+
                             System.out.println("Você morreu e não tem mais vidas, pressione 'R' para recomeçar a fase!\n");
                         }
                     }
