@@ -118,7 +118,7 @@ public class Hero extends Personagem implements Serializable{
     public boolean moveDown() {
         if(super.moveDown()) {
             direcao = 2;
-            return validaPosicao();
+            return  validaPosicao();
         }
         return false;
     }
