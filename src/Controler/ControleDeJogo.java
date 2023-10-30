@@ -2,6 +2,7 @@ package Controler;
 
 import Modelo.Personagem;
 import Modelo.Hero;
+import Modelo.Ghast;
 import auxiliar.Posicao;
 import java.util.ArrayList;
 import java.lang.Math;
@@ -37,7 +38,25 @@ public class ControleDeJogo {
 
         boolean monsterNearby = isMonsterNearby(umaFase, linhaHeroi, colunaHeroi);
 
-
+        if(this.getFase() == 3){
+            System.out.println("ok");
+             for (int k = 1; k < umaFase.size(); k++) {
+                 if(umaFase.get(k).isbGhast()){
+                     
+                     Ghast ghast = (Ghast) umaFase.get(k);
+                     Posicao posicaoGhast = ghast.getPosicao();
+                     if(hero.getDirecao() == 1 || hero.getDirecao() == 2){
+                         if(posicaoGhast.getLinha() != linhaHeroi){
+                            int direcaoHero = hero.getDirecao();
+                            ghast.moveBox(direcaoHero);
+                         }
+                         
+                     }
+                     
+                          
+                 }
+             }
+         }
 
         for(int i = 1; i < umaFase.size(); i++){
             pIesimoPersonagem = umaFase.get(i);
@@ -163,8 +182,9 @@ public class ControleDeJogo {
                         if (hero.getQttLifes() != 0) {
 
                             resetaHeroi(hero);
-
-                        } else {
+                             
+                            
+                        }   else {
                             hero.changeImg("");
 
 
@@ -177,6 +197,14 @@ public class ControleDeJogo {
                     if (pIesimoPersonagem.isbArrow()) {
                         if (hero.getQttLifes() != 0) {
                             resetaHeroi(hero);
+                           /* if(this.getFase() == 3){
+                                for (int k = 1; k < umaFase.size(); k++) {
+                                    if(umaFase.get(k).isbGhast()){
+                                        Ghast ghast = (Ghast) umaFase.get(k);
+                                        ghast.setPosicao(linhaHeroi,colunaHeroi);       
+                                    }
+                                }
+                            }*/
 
                         } else {
                             hero.changeImg("");

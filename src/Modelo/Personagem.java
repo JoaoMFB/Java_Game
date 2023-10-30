@@ -16,6 +16,7 @@ public abstract class Personagem implements Serializable {
     protected Posicao pPosicao;
     protected boolean bTransponivel; /*Pode passar por cima?*/
     protected boolean bMortal;       /*Se encostar, morre?*/
+    protected boolean isHero;
     protected boolean isPig;
     protected boolean isMonster;
     protected boolean isArrow;
@@ -35,6 +36,7 @@ public abstract class Personagem implements Serializable {
         this.pPosicao = new Posicao(1, 1);
         this.bTransponivel = true;
         this.bMortal = false;
+        this.isHero = false;
         this.isPig = false;
         this.isKey = false;
         this.isDoor = false;
@@ -97,8 +99,10 @@ public abstract class Personagem implements Serializable {
     public boolean isbPig(){
         return isPig;
     }
-
+    public boolean isbHero() {return isHero;}
+ 
     public boolean isbDoor() { return isDoor; }
+    
     public boolean isbEspada() { return isEspada; }
 
     public boolean isbMonster(){return isMonster;}
