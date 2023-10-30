@@ -21,9 +21,22 @@ public class Ghast extends Personagem implements Serializable {
         this.isGhast = true;
         this.setbTransponivel(true);
         this.iContaIntervalos = 0;
+        
 
     }
-    
+    @Override
+    public boolean setPosicao(int linha, int coluna){
+        if(this.pPosicao.setPosicao(linha, coluna)){
+            if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(this.getPosicao())) {
+                this.voltaAUltimaPosicao();
+            }
+            return true;
+        }
+        return false;
+    }
+    public void voltaAUltimaPosicao(){
+        this.pPosicao.volta();
+    }
     public void autoDesenho(){
         super.autoDesenho();
         this.iContaIntervalos++;

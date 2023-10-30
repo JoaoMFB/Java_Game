@@ -13,8 +13,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Hero extends Personagem implements Serializable{
+    
     public Hero(String sNomeImagePNG) {
         super(sNomeImagePNG);
+        this.isHero = true;
     }
 
     public void voltaAUltimaPosicao(){
@@ -41,7 +43,6 @@ public class Hero extends Personagem implements Serializable{
         }
         return false;
     }
-
 
 
     public int getAttackDirection() {
