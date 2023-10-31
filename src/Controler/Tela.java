@@ -3,6 +3,7 @@ package Controler;
 import Modelo.*;
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
+import Modelo.Save;
 import auxiliar.Posicao;
 
 import java.awt.Graphics;
@@ -23,7 +24,6 @@ import java.util.logging.Logger;
 public class Tela extends javax.swing.JFrame implements MouseListener, KeyListener {
 
     private Hero hero;
-    private Hero heroi;
     private LifeCounter lifeCounter;
     private Diamond diamond;
     private Ghast ghast;
@@ -70,43 +70,66 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
 
         hero = new Hero("downSteve.png");
-        setFase(hero);
-
-    }
-    public void save(ArrayList<Personagem> personagens, String fileName) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {
-            out.writeObject(personagens);
-            System.out.println("Salvo com sucesso");
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(!load("savegame.ser")){
+            setFase(hero);
         }
+
+
+    }
+    public boolean save(String filename) {
+        try (FileOutputStream fileOut = new FileOutputStream(filename);
+             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+
+            Save salvarJogo = new Save(faseAtual, faseAt);
+            out.writeObject(salvarJogo);
+
+        } catch (FileNotFoundException ex) {
+            logAndPrintError("Erro ao salvar o jogo: arquivo não encontrado", ex);
+            return false;
+        } catch (IOException ex) {
+            logAndPrintError("Erro ao salvar o jogo", ex);
+            return false;
+        }
+        return true;
     }
 
-    public ArrayList<Personagem> load(String fileName) {
-        ArrayList<Personagem> loadedPersonagens = new ArrayList<>();
+    public boolean load(String filename) {
+        File saveGameFile = new File(filename);
 
-        File file = new File(fileName);
+        if (saveGameFile.exists()) {
+            try (FileInputStream fileIn = new FileInputStream(saveGameFile);
+                 ObjectInputStream in = new ObjectInputStream(fileIn)) {
 
-        if (file.exists()) {
-            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName))) {
-                loadedPersonagens = (ArrayList<Personagem>) in.readObject();
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
+                Save jogoSalvo = (Save) in.readObject();
+                this.faseAtual = jogoSalvo.getPersonagens();
+                this.faseAt = jogoSalvo.getContador();
+
+                System.out.format("Jogo carregado: Você está na fase %d%n", this.faseAt);
+
+            } catch (IOException | ClassNotFoundException ex) {
+                logAndPrintError("Erro ao carregar o jogo", ex);
+                return false;
             }
+            return true;
         } else {
-            loadedPersonagens = null;
+            try {
+                saveGameFile.createNewFile();
+            } catch (IOException ex) {
+                logAndPrintError("Erro ao criar arquivo de jogo", ex);
+                return false;
+            }
+            return false;
         }
-
-        return loadedPersonagens;
     }
+
+    private void logAndPrintError(String message, Exception ex) {
+        Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, message, ex);
+        System.out.println("Erro: " + message);
+    }
+
 
     public void setFase(Hero hero){
-        ArrayList<Personagem> personagens = load("savegame.ser");
 
-        if(personagens != null){
-            this.faseAtual = personagens;
-        }
-        else{
             if(this.faseAt == 0){
                 setAllChar(hero);
             }
@@ -119,7 +142,6 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             if(this.faseAt == 3){
                 setAllChar4(hero);
             }
-        }
 
     }
     public void setAllChar(Hero hero){
@@ -685,7 +707,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     public void keyPressed(KeyEvent e) {
         Hero hero = (Hero) this.faseAtual.get(0);
         if (e.getKeyCode() == KeyEvent.VK_M) {
-            save(this.faseAtual, "savegame.ser");
+            save("savegame.ser");
         }
         if (e.getKeyCode() == KeyEvent.VK_C) {
             this.faseAtual.clear();
@@ -822,6 +844,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
 
     public void mousePressed(MouseEvent e) {
+        Hero hero = (Hero) this.faseAtual.get(0);
+
         /* Clique do mouse desligado*/
          int x = e.getX();
          int y = e.getY();
