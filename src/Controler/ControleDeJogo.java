@@ -49,10 +49,15 @@ public class ControleDeJogo {
                             int direcaoHero = hero.getDirecao();
                             ghast.moveBox(direcaoHero);
                          }
-                         
                      }
-                     
-                          
+                     for(int j = 1; j < umaFase.size(); j++){
+                         pJesimoPersonagem = umaFase.get(j);
+                         if (ghast.getPosicao().igual(pJesimoPersonagem.getPosicao())){
+                             if(pJesimoPersonagem.getWhatIsIt() == "Wall"){
+                                 ghast.voltaAUltimaPosicao();
+                             }
+                         }
+                     }
                  }
              }
          }
@@ -212,15 +217,6 @@ public class ControleDeJogo {
                     if (pIesimoPersonagem.isbArrow()) {
                         if (hero.getQttLifes() != 0) {
                             resetaHeroi(hero);
-                           /* if(this.getFase() == 3){
-                                for (int k = 1; k < umaFase.size(); k++) {
-                                    if(umaFase.get(k).isbGhast()){
-                                        Ghast ghast = (Ghast) umaFase.get(k);
-                                        ghast.setPosicao(linhaHeroi,colunaHeroi);       
-                                    }
-                                }
-                            }*/
-
                         } else {
                             hero.changeImg("");
                             System.out.println("Você morreu e não tem mais vidas, pressione 'R' para recomeçar a fase!\n");
