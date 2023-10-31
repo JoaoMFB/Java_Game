@@ -31,6 +31,8 @@ public abstract class Personagem implements Serializable {
     protected boolean isEspada;
     protected boolean isLifeCounter;
 
+    protected boolean isWall;
+
     protected String whatIsIt = null;
 
 
@@ -41,6 +43,7 @@ public abstract class Personagem implements Serializable {
         this.isHero = false;
         this.isPig = false;
         this.isKey = false;
+        this.isWall = false;
         this.isDoor = false;
         this.isMonster = false;
         this.isArrow = false;
@@ -99,6 +102,10 @@ public abstract class Personagem implements Serializable {
     public boolean isbKey(){
         return isKey;
     }
+    public boolean isbWall(){
+        return isWall;
+    }
+
     public boolean isbLife(){
         return isLife;
     }

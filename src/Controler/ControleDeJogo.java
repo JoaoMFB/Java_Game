@@ -178,7 +178,7 @@ public class ControleDeJogo {
                         int direcaoHero = hero.getDirecao();
                         pIesimoPersonagem.moveBox(direcaoHero);
                     }
-                    if (pIesimoPersonagem.getWhatIsIt() == "Life") {
+                    if (pIesimoPersonagem.isbLife()) {
                         System.out.println("funcionou");
                         if(life <= 3){
                             life++;
@@ -208,8 +208,8 @@ public class ControleDeJogo {
                         if(hero.getQttLifes() != 0){
                             resetaHeroi(hero);
                         }
-                        else{hero.changeImg("");
-                            System.out.println("\"Você morreu e não tem mais vidas, pressione 'R' para recomeçar a fase!\\n\"");
+                        else{
+                            System.out.println("Você morreu e não tem mais vidas, a fase foi recomeçada.\n");
                             return -1;
                         }
                     }
@@ -218,10 +218,14 @@ public class ControleDeJogo {
                         if (hero.getQttLifes() != 0) {
                             resetaHeroi(hero);
                         } else {
-                            hero.changeImg("");
-                            System.out.println("Você morreu e não tem mais vidas, pressione 'R' para recomeçar a fase!\n");
+                            System.out.println("Você morreu e não tem mais vidas, a fase foi recomeçada.\n");
                             return -1;
                         }
+                        /*for (int j = 1; j < umaFase.size(); j++){
+                            if(umaFase.get(j).isbWall()){
+                                umaFase.remove(umaFase.get(i));
+                            }
+                        }*/
                     }
                     if (pIesimoPersonagem.isbDiamond()) {
                         setFinished(true);

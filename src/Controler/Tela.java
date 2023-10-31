@@ -131,7 +131,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     public void setAllChar(Hero hero){
         int[][] matriz = {
                 {0,     0,      -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,      -2},
-                {-1,    0,      0,      4,      0,      11,     1,      14,      1,       8,     0,      0,      -1},
+                {-1,    0,      0,      4,      0,      11,     1,      14,      1,      8,     0,      0,      -1},
                 {-1,    0,      0,      1,      0,      0,      1,      0,      1,       0,      1,      0,      -1},
                 {-1,    0,      0,      1,      0,      0,      1,      0,      1,       0,      1,      0,      -1},
                 {-1,    0,      0,      1,      0,      0,      1,      0,      1,       0,      1,      0,      -1},
