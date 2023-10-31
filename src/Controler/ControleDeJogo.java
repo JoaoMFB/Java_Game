@@ -163,7 +163,8 @@ public class ControleDeJogo {
                         int direcaoHero = hero.getDirecao();
                         pIesimoPersonagem.moveBox(direcaoHero);
                     }
-                    if (pIesimoPersonagem.isbLife()) {
+                    if (pIesimoPersonagem.getWhatIsIt() == "Life") {
+                        System.out.println("funcionou");
                         if(life <= 3){
                             life++;
                             hero.setQttLifes(life);
@@ -180,15 +181,9 @@ public class ControleDeJogo {
                     // Implementar a morte do hero (reset) quando entra no monstro.
                     if (pIesimoPersonagem.isbMonster()) {
                         if (hero.getQttLifes() != 0) {
-
                             resetaHeroi(hero);
-                             
-                            
                         }   else {
-                            hero.changeImg("");
-
-
-                            System.out.println("Você morreu e não tem mais vidas, pressione 'R' para recomeçar a fase!\n");
+                            System.out.println("Você morreu e não tem mais vidas, a fase foi recomeçada.\n");
                             return -1;
                         }
                     }
@@ -248,7 +243,10 @@ public class ControleDeJogo {
 
     public void resetaHeroi(Hero hero){
         hero.setPosicao(0, 0);
-        hero.setQttLifes(hero.getQttLifes()-1);
+        if(hero.getQttLifes() >= 0){
+            hero.setQttLifes(hero.getQttLifes()-1);
+        }
+
         System.out.format("Você morreu, mas ainda restam: %d vidas. Tente novamente!\n", hero.getQttLifes());
     }
 

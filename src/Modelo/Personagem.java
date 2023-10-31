@@ -30,6 +30,7 @@ public abstract class Personagem implements Serializable {
     protected boolean isEspada;
     protected boolean isLifeCounter;
 
+    protected String whatIsIt = null;
 
 
     protected Personagem(String sNomeImagePNG) {
@@ -65,6 +66,11 @@ public abstract class Personagem implements Serializable {
         /*TODO: Retirar este método para que objetos externos nao possam operar
          diretamente sobre a posição do Personagem*/
         return pPosicao;
+    }
+
+
+    public String getWhatIsIt() {
+        return whatIsIt;
     }
 
     public boolean isbTransponivel() {

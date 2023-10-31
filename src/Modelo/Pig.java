@@ -11,6 +11,7 @@ public class Pig extends Personagem implements Serializable {
         super(sNomeImagePNG);
         this.isPig = true;
         this.setbTransponivel(true);
+        this.whatIsIt = "Pig";
     }
     public void autoDesenho(){
         super.autoDesenho();

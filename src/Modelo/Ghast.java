@@ -21,6 +21,7 @@ public class Ghast extends Personagem implements Serializable {
         this.isGhast = true;
         this.setbTransponivel(true);
         this.iContaIntervalos = 0;
+        this.whatIsIt = "Ghast";
         
 
     }

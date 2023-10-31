@@ -13,6 +13,7 @@ public class Wall extends Personagem implements Serializable{
         super(sNomeImagePNG);
         this.setbTransponivel(false);
         this.iContaIntervalos = 0;
+        this.whatIsIt = "Wall";
     }
 
     public void autoDesenho() {

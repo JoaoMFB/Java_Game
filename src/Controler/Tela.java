@@ -12,7 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,16 +23,16 @@ import java.util.logging.Logger;
 public class Tela extends javax.swing.JFrame implements MouseListener, KeyListener {
 
     private Hero hero;
+    private Hero heroi;
     private LifeCounter lifeCounter;
     private Diamond diamond;
     private Ghast ghast;
     private Arco arco;
     private Espada espada;
     private ArrayList<Personagem> faseAtual;
-    private ArrayList<Personagem> fase2;
-    private ArrayList<Personagem> fase3;
-    private ArrayList<Personagem> fase4;
+
     private ControleDeJogo cj = new ControleDeJogo();
+
     private Graphics g2;
     private int faseAt;
 
@@ -70,24 +70,57 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
 
         hero = new Hero("downSteve.png");
-        //setAllChar();
         setFase(hero);
 
     }
+    public void save(ArrayList<Personagem> personagens, String fileName) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            out.writeObject(personagens);
+            System.out.println("Salvo com sucesso");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<Personagem> load(String fileName) {
+        ArrayList<Personagem> loadedPersonagens = new ArrayList<>();
+
+        File file = new File(fileName);
+
+        if (file.exists()) {
+            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName))) {
+                loadedPersonagens = (ArrayList<Personagem>) in.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else {
+            loadedPersonagens = null;
+        }
+
+        return loadedPersonagens;
+    }
 
     public void setFase(Hero hero){
-        if(this.faseAt == 0){
-            setAllChar(hero);
+        ArrayList<Personagem> personagens = load("savegame.ser");
+
+        if(personagens != null){
+            this.faseAtual = personagens;
         }
-        if(this.faseAt == 1){
-            setAllChar2(hero);
+        else{
+            if(this.faseAt == 0){
+                setAllChar(hero);
+            }
+            if(this.faseAt == 1){
+                setAllChar2(hero);
+            }
+            if(this.faseAt == 2){
+                setAllChar3(hero);
+            }
+            if(this.faseAt == 3){
+                setAllChar4(hero);
+            }
         }
-        if(this.faseAt == 2){
-            setAllChar3(hero);
-        }
-        if(this.faseAt == 3){
-            setAllChar4(hero);
-        }
+
     }
     public void setAllChar(Hero hero){
         int[][] matriz = {
@@ -614,10 +647,17 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         }
             if (!this.faseAtual.isEmpty()) {
                 this.cj.desenhaTudo(faseAtual);
-                if(this.cj.processaTudo(faseAtual) == 1){
+                int aux = this.cj.processaTudo(faseAtual);
+                if(aux == 1){
                     this.faseAt++;
                     this.cj.setFase(faseAt);
                     this.faseAtual.clear();
+                    setFase(hero);
+                }
+                else if(aux == -1){
+                    this.cj.setFase(faseAt);
+                    this.faseAtual.clear();
+                    hero.resetaAllHero();
                     setFase(hero);
                 }
 
@@ -642,6 +682,10 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
 
     public void keyPressed(KeyEvent e) {
+        Hero hero = (Hero) this.faseAtual.get(0);
+        if (e.getKeyCode() == KeyEvent.VK_M) {
+            save(this.faseAtual, "savegame.ser");
+        }
         if (e.getKeyCode() == KeyEvent.VK_C) {
             this.faseAtual.clear();
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {

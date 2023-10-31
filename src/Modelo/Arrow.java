@@ -16,6 +16,7 @@ public class Arrow extends Personagem implements Serializable{
         this.bMortal = true;  
         this.isArrow = true;
         this.arrowDirection = arrowDirection;
+        this.whatIsIt = "Arrow";
     }
 
     
