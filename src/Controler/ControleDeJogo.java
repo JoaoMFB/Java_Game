@@ -194,6 +194,16 @@ public class ControleDeJogo {
                     }
 
                     // Precisa arrumar esse if, pq ta dando exception quando o steve morre por uma flecha, tanto do esqueleto quanto do ghast. (A morte por contato com o zumbi não acontece isso)
+                    if(pIesimoPersonagem.isbFireball()){
+                        if(hero.getQttLifes() != 0){
+                            resetaHeroi(hero);
+                        }
+                        else{hero.changeImg("");
+                            System.out.println("\"Você morreu e não tem mais vidas, pressione 'R' para recomeçar a fase!\\n\"");
+                            return -1;
+                        }
+                    }
+                    
                     if (pIesimoPersonagem.isbArrow()) {
                         if (hero.getQttLifes() != 0) {
                             resetaHeroi(hero);

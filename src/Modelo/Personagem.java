@@ -20,6 +20,7 @@ public abstract class Personagem implements Serializable {
     protected boolean isPig;
     protected boolean isMonster;
     protected boolean isArrow;
+    protected boolean isFireball;
     protected boolean isKey;
     protected boolean isLife;
     protected boolean isGhast;
@@ -108,6 +109,8 @@ public abstract class Personagem implements Serializable {
     public boolean isbMonster(){return isMonster;}
     
     public boolean isbArrow(){return isArrow;}
+    
+    public boolean isbFireball(){return isFireball;}
 
     public boolean isbDiamond(){return isDiamond;}
     

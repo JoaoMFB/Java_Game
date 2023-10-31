@@ -42,9 +42,9 @@ public class Ghast extends Personagem implements Serializable {
         this.iContaIntervalos++;
         if(this.iContaIntervalos == Consts.TIMER){
             this.iContaIntervalos = 0;
-            Arrow arrow = new Arrow("fireball.png", 4);
-            arrow.setPosicao(pPosicao.getLinha(),pPosicao.getColuna()-1);
-            Desenho.acessoATelaDoJogo().addPersonagem(arrow);
+            Fireball fireball = new Fireball("fireball.png", 4);
+            fireball.setPosicao(pPosicao.getLinha(),pPosicao.getColuna()-1);
+            Desenho.acessoATelaDoJogo().addPersonagem(fireball);
         }   
     }
     
