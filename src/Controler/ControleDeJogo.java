@@ -39,7 +39,6 @@ public class ControleDeJogo {
         boolean monsterNearby = isMonsterNearby(umaFase, linhaHeroi, colunaHeroi);
 
         if(this.getFase() == 3){
-            System.out.println("ok");
              for (int k = 1; k < umaFase.size(); k++) {
                  if(umaFase.get(k).isbGhast()){
                      
@@ -134,9 +133,20 @@ public class ControleDeJogo {
                     pJesimoPersonagem = umaFase.get(j);
                     if (pJesimoPersonagem.getPosicao().igual(pIesimoPersonagem.getPosicao())){
                         //TODO ==> A flecha só mata quando o ultimo movimento do heroi foi up/down.
-                        if (pJesimoPersonagem.isbMonster() || pJesimoPersonagem.isbGhast()) {
+                        if (pJesimoPersonagem.isbMonster() && pJesimoPersonagem.isbGhast()){
+                            Ghast ghast = (Ghast) umaFase.get(j);        
+                            if (ghast.getQttLifes() != 0){
+                                System.out.println(ghast.getQttLifes());
+                                ghast.setQttLifes(ghast.getQttLifes() - 1);
+                            }
+                            else{
+                                umaFase.remove(ghast);
+                            }
+                        }
+                        else if(pJesimoPersonagem.isbMonster()) {
                             umaFase.remove(umaFase.get(j));
                         }
+                        
                     }
                 }
             }
