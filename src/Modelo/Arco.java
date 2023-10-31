@@ -14,6 +14,7 @@ public class Arco extends Personagem implements Serializable {
     public Arco(String sNomeImagePNG) {
         super(sNomeImagePNG);
         this.isArco = true;
+        this.whatIsIt = "Arco";
     }
     public void autoDesenho(){
         super.autoDesenho();

@@ -2,6 +2,7 @@ package Modelo;
 
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
+import auxiliar.Posicao;
 import Controler.ControleDeJogo;
 import Controler.Tela;
 import java.awt.Graphics;
@@ -13,10 +14,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Hero extends Personagem implements Serializable{
-    
+
+
+   private String img;
     public Hero(String sNomeImagePNG) {
         super(sNomeImagePNG);
         this.isHero = true;
+        this.img = "sNomeImagePNG";
+        this.whatIsIt = "Hero";
     }
 
     public void voltaAUltimaPosicao(){
@@ -44,6 +49,24 @@ public class Hero extends Personagem implements Serializable{
         return false;
     }
 
+    public void copyAttributes(Hero other) {
+        // Copie os atributos do 'other' para a instância atual
+        this.img = other.img;
+        this.isHero = other.isHero;
+        this.whatIsIt = other.whatIsIt;
+        Posicao pOther = other.getPosicao();
+        int linha = pOther.getLinha();
+        int coluna = pOther.getColuna();
+        this.pPosicao = new Posicao(linha, coluna);
+        this.arco = other.arco;
+        this.qttKeys = other.qttKeys;
+        this.qttLifes = other.qttLifes;
+        this.direcao = other.direcao;
+        this.attackDirection = other.attackDirection;
+        this.hasSword = other.hasSword;
+        this.isAnimating = other.isAnimating;
+        this.lastDirection = other.lastDirection;
+    }
 
     public int getAttackDirection() {
         return attackDirection;
@@ -102,6 +125,12 @@ public class Hero extends Personagem implements Serializable{
         }
         return true;       
     }
+    public void resetaAllHero(){
+        this.qttKeys = 0;
+        this.qttLifes = 0;
+        this.hasSword = false;
+        this.arco = false;
+    }
 
     public int getDirecao() {
         return direcao;
@@ -119,7 +148,7 @@ public class Hero extends Personagem implements Serializable{
     public boolean moveDown() {
         if(super.moveDown()) {
             direcao = 2;
-            return validaPosicao();
+            return  validaPosicao();
         }
         return false;
     }

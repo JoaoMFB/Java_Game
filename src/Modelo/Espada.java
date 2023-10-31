@@ -14,6 +14,7 @@ public class Espada extends Personagem implements Serializable {
     public Espada(String sNomeImagePNG) {
         super(sNomeImagePNG);
         this.isEspada = true;
+        this.whatIsIt = "Espada";
     }
     public void autoDesenho(){
         super.autoDesenho();
