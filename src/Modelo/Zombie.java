@@ -26,7 +26,6 @@ public class Zombie extends Personagem implements Serializable {
         this.isMonster = true;
         this.setbTransponivel(true);
         this.direction = direction;
-        this.whatIsIt = "Monster";
     }
     public void autoDesenho() {
         Random rand = new Random();

@@ -8,7 +8,6 @@ public class Monster extends Personagem implements Serializable {
         super(sNomeImagePNG);
         this.isMonster = true;
         this.setbTransponivel(true);
-        this.whatIsIt = "Monster";
     }
     public void autoDesenho(){
         super.autoDesenho();

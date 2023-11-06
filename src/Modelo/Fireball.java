@@ -14,7 +14,6 @@ public class Fireball extends Personagem implements Serializable{
     public Fireball(String sNomeImagePNG, int arrowDirection) {
         super(sNomeImagePNG);
         this.bMortal = true;  
-        this.isFireball = true;
         this.arrowDirection = arrowDirection;
     }
 
