@@ -20,7 +20,7 @@ public class ControleDeJogo {
             e.get(i).autoDesenho();
         }
     }
-    public int processaTudo(ArrayList<Personagem> umaFase) {
+    public int processaTudo(ArrayList<Personagem> umaFase) throws InterruptedException {
         Hero hero = (Hero) umaFase.get(0);
         Personagem pIesimoPersonagem;
         Personagem pJesimoPersonagem;
@@ -143,6 +143,8 @@ public class ControleDeJogo {
                             }
                             else{
                                 umaFase.remove(ghast);
+                                System.out.println("Parabéns, você zerou o jogo, obrigado por jogar! \nFeito por: \nDaniel Umeda Kuhn \nJoao Marcelo Battaglini");
+                                Thread.sleep(1000);
                             }
                         }
                         else if(pJesimoPersonagem.isbMonster()) {
