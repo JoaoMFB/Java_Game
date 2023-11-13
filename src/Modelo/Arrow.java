@@ -4,6 +4,7 @@
  */
 package Modelo;
 
+import Modelo.Wall;
 import Auxiliar.Desenho;
 import Controler.Tela;
 import java.awt.Graphics;

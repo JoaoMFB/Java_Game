@@ -136,7 +136,6 @@ public class ControleDeJogo {
                         if (pJesimoPersonagem.isbMonster() && pJesimoPersonagem.isbGhast()){
                             Ghast ghast = (Ghast) umaFase.get(j);        
                             if (ghast.getQttLifes() != 0){
-                                System.out.println(ghast.getQttLifes());
                                 ghast.setQttLifes(ghast.getQttLifes() - 1);
                             }
                             else{

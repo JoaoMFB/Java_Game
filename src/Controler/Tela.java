@@ -526,7 +526,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                 {-1,  0,  1,  0, 15,  0,  0,  1,  0,  0,  1,  0, -1},
                 {-1,  0,  0,  0,  0,  0,  0,  1,  0,  0,  1,  0, -1},
                 {-1,  0,  0,  0,  0,  0,  0,  1,  0,  6,  1,  0, -1},
-                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  1, -1}
+                {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
         };
 
         Wall Par[] = new Wall[121]; //index 1
