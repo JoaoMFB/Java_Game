@@ -16,7 +16,7 @@ import auxiliar.Posicao;
 import java.io.Serializable;
 import java.util.Random;
 
-public class Zombie extends Personagem implements Serializable {
+public class Zombie extends Monster implements Serializable {
 
     private boolean iDirecao = true;
 

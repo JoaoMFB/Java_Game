@@ -11,7 +11,7 @@ import Controler.Tela;
 import java.awt.Graphics;
 import java.io.Serializable;
 
-public class Skeleton extends Personagem implements Serializable{
+public class Skeleton extends Monster implements Serializable{
     private int iContaIntervalos;
     private int arrowDirection;
     

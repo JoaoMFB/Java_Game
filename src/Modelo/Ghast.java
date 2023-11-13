@@ -12,7 +12,7 @@ import java.awt.Graphics;
 
 
 
-public class Ghast extends Personagem implements Serializable {
+public class Ghast extends Monster implements Serializable {
     private int iContaIntervalos;
     private int qttLifes = 3;
     public Ghast(String sNomeImagePNG) {
