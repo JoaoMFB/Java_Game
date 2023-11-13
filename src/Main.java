@@ -7,8 +7,6 @@ public class  Main {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Tela tTela = new Tela();
-
-
                 tTela.setVisible(true);
                 tTela.createBufferStrategy(2);
                 tTela.go();

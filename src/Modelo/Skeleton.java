@@ -21,7 +21,6 @@ public class Skeleton extends Personagem implements Serializable{
         this.iContaIntervalos = 0;
         this.arrowDirection = arrowDirection;
         this.isMonster = true;
-        this.whatIsIt = "Monster";
     }
 
     public void autoDesenho() {

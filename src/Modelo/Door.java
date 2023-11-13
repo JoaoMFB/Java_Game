@@ -8,8 +8,6 @@ public class Door extends Personagem implements Serializable {
     public Door(String sNomeImagePNG) {
         super(sNomeImagePNG);
         this.setbTransponivel(false);
-        this.isDoor = true;
-        this.whatIsIt = "Door";
     }
 
 

@@ -3,6 +3,7 @@ package Controler;
 import Modelo.*;
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
+import Modelo.Save;
 import auxiliar.Posicao;
 
 import java.awt.Graphics;
@@ -21,24 +22,16 @@ import java.util.logging.Logger;
 
 
 public class Tela extends javax.swing.JFrame implements MouseListener, KeyListener {
-
     private Hero hero;
-    private Hero heroi;
     private LifeCounter lifeCounter;
     private Diamond diamond;
     private Ghast ghast;
     private Arco arco;
     private Espada espada;
     private ArrayList<Personagem> faseAtual;
-
     private ControleDeJogo cj = new ControleDeJogo();
-
     private Graphics g2;
     private int faseAt;
-
-
-
-
 
     public Tela() {
         Desenho.setCenario(this);
@@ -65,48 +58,63 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         System.out.format("--->PARA USAR A ESPADA, BASTA CHEGAR PERTO DE UM MONSTRO E APERTAR ESPACO\n");
         System.out.format("--->PARA USAR O ARCO, UTILIZE AS TECLAS W-A-S-D PARA ESCOLHER A DIRECAO DE ATAQUE\n");
 
-
-
-
-
         hero = new Hero("downSteve.png");
-        setFase(hero);
-
-    }
-    public void save(ArrayList<Personagem> personagens, String fileName) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {
-            out.writeObject(personagens);
-            System.out.println("Salvo com sucesso");
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(!load("savegame.ser")){
+            setFase(hero);
         }
+
+    }
+    public boolean save(String filename) {
+        try (FileOutputStream fileOut = new FileOutputStream(filename);
+             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+            Save salvarJogo = new Save(faseAtual, faseAt);
+            out.writeObject(salvarJogo);
+            System.out.format("Jogo salvo com sucesso na fase: %d", faseAt);
+        } catch (FileNotFoundException ex) {
+            logAndPrintError("Erro ao salvar o jogo: arquivo não encontrado", ex);
+            return false;
+        } catch (IOException ex) {
+            logAndPrintError("Erro ao salvar o jogo", ex);
+            return false;
+        }
+        return true;
     }
 
-    public ArrayList<Personagem> load(String fileName) {
-        ArrayList<Personagem> loadedPersonagens = new ArrayList<>();
+    public boolean load(String filename) {
+        File saveGameFile = new File(filename);
 
-        File file = new File(fileName);
+        if (saveGameFile.exists()) {
+            try (FileInputStream fileIn = new FileInputStream(saveGameFile);
+                 ObjectInputStream in = new ObjectInputStream(fileIn)) {
 
-        if (file.exists()) {
-            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName))) {
-                loadedPersonagens = (ArrayList<Personagem>) in.readObject();
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
+                Save jogoSalvo = (Save) in.readObject();
+                this.faseAtual = jogoSalvo.getPersonagens();
+                this.faseAt = jogoSalvo.getContador();
+                System.out.format("Jogo carregado: Você está na fase %d%n", this.faseAt);
+
+            } catch (IOException | ClassNotFoundException ex) {
+                logAndPrintError("Erro ao carregar o jogo", ex);
+                return false;
             }
+            return true;
         } else {
-            loadedPersonagens = null;
+            try {
+                saveGameFile.createNewFile();
+            } catch (IOException ex) {
+                logAndPrintError("Erro ao criar arquivo de jogo", ex);
+                return false;
+            }
+            return false;
         }
-
-        return loadedPersonagens;
     }
+
+    private void logAndPrintError(String message, Exception ex) {
+        Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, message, ex);
+        System.out.println("Erro: " + message);
+    }
+
 
     public void setFase(Hero hero){
-        ArrayList<Personagem> personagens = load("savegame.ser");
-
-        if(personagens != null){
-            this.faseAtual = personagens;
-        }
-        else{
             if(this.faseAt == 0){
                 setAllChar(hero);
             }
@@ -119,23 +127,21 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             if(this.faseAt == 3){
                 setAllChar4(hero);
             }
-        }
-
     }
     public void setAllChar(Hero hero){
         int[][] matriz = {
-                {9,     0,      -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,      -2},
-                {-1,    0,      0,      4,      0,      15,     1,      33,      1,       12,     0,      0,      -1},
+                {0,     0,      -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,      -2},
+                {-1,    0,      0,      4,      0,      11,     1,      14,      1,      8,     0,      0,      -1},
                 {-1,    0,      0,      1,      0,      0,      1,      0,      1,       0,      1,      0,      -1},
                 {-1,    0,      0,      1,      0,      0,      1,      0,      1,       0,      1,      0,      -1},
                 {-1,    0,      0,      1,      0,      0,      1,      0,      1,       0,      1,      0,      -1},
                 {-1,    0,      0,      1,      0,      0,      1,      4,      1,       0,      1,      0,      -1},
-                {-1,    0,      6,      1,      0,      0,      0,      0,      0,       0,      1,      34,      -1},
+                {-1,    0,      5,      1,      0,      0,      0,      0,      0,       0,      1,      15,      -1},
                 {-1,    3,      1,      1,      1,      1,      1,      0,      0,       0,      1,      0,      -1},
                 {-1,    0,      0,      0,      0,      0,      1,      0,      0,       0,      1,      0,      -1},
-                {-1,    0,      0,      16,     0,      0,      1,      0,      0,       0,      1,      0,      -1},
+                {-1,    0,      0,      12,     0,      0,      1,      0,      0,       0,      1,      0,      -1},
                 {-1,    0,      0,      0,      0,      0,      1,      0,      0,       0,      1,      0,      -1},
-                {-1,    0,      0,      0,      0,      2,      1,      0,      0,       2,      1,      7,      -1},
+                {-1,    0,      0,      0,      0,      2,      1,      0,      0,       2,      1,      6,      -1},
                 {-1,    -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,      -1,     -1}
         };
 
@@ -185,68 +191,59 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                     Door[i].setPosicao(i, j);
                     this.addPersonagem(Door[i]);
                 }
+
                 if(matriz[i][j] == 5){
-                    Monster[i] = new Monster("caveira.png");
-                    Monster[i].setPosicao(i, j);
-                    this.addPersonagem(Monster[i]);
-                }
-                if(matriz[i][j] == 6){
                     Life[i] = new Life("coracao.png");
                     Life[i].setPosicao(i, j);
                     this.addPersonagem(Life[i]);
                 }
-                if(matriz[i][j] == 7){
+                if(matriz[i][j] == 6){
                     diamond = new Diamond("Diamond.png");
                     diamond.setPosicao(i, j);
                     this.addPersonagem(diamond);
                 }
-                if(matriz[i][j] == 8){
-                    Zombie[i] = new Zombie("zombie.png", 'v');
-                    Zombie[i].setPosicao(i, j);
-                    this.addPersonagem(Zombie[i]);
-                }
 
-                if(matriz[i][j] == 11){
+                if(matriz[i][j] == 7){
                     Skeleton[i] = new Skeleton("skeleton.png", 1);
                     Skeleton[i].setPosicao(i, j);
                     this.addPersonagem(Skeleton[i]);
                 }
-                if(matriz[i][j] == 12){
+                if(matriz[i][j] == 8){
                     Skeleton[i] = new Skeleton("skeleton.png", 2);
                     Skeleton[i].setPosicao(i, j);
                     this.addPersonagem(Skeleton[i]);
                 }
-                if(matriz[i][j] == 13){
+                if(matriz[i][j] == 9){
                     Skeleton[i] = new Skeleton("skeleton.png", 3);
                     Skeleton[i].setPosicao(i, j);
                     this.addPersonagem(Skeleton[i]);
                 }
-                if(matriz[i][j] == 14){
+                if(matriz[i][j] == 10){
                     Skeleton[i] = new Skeleton("skeleton.png", 4);
                     Skeleton[i].setPosicao(i, j);
                     this.addPersonagem(Skeleton[i]);
                 }
-                if(matriz[i][j] == 15){
+                if(matriz[i][j] == 11){
                     Zombie[i] = new Zombie("zombie.png", 'v');
                     Zombie[i].setPosicao(i, j);
                     this.addPersonagem(Zombie[i]);
                 }
-                if(matriz[i][j] == 16){
+                if(matriz[i][j] == 12){
                     Zombie[i] = new Zombie("zombie.png", 'h');
                     Zombie[i].setPosicao(i, j);
                     this.addPersonagem(Zombie[i]);
                 }
-                if(matriz[i][j] == 17){
+                if(matriz[i][j] == 13){
                     Zombie[i] = new Zombie("zombie.png", 'a');
                     Zombie[i].setPosicao(i, j);
                     this.addPersonagem(Zombie[i]);
                 }
-                if(matriz[i][j] == 33){
+                if(matriz[i][j] == 14){
                     arco = new Arco("arco.png");
                     arco.setPosicao(i, j);
                     this.addPersonagem(arco);
                 }
-                if(matriz[i][j] == 34){
+                if(matriz[i][j] == 15){
                     espada = new Espada("sword.png");
                     espada.setPosicao(i, j);
                     this.addPersonagem(espada);
@@ -258,161 +255,34 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
     public void setAllChar2(Hero hero){
         int[][] matriz = {
-                {9,     0,      -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,      -2},
-                {-1,    0,      0,      4,      0,      15,     1,      33,      1,       12,     0,      0,      -1},
+                {0,     1,      -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,      -2},
+                {-1,    0,      0,      4,      0,      11,     1,      14,      1,       8,     0,      0,      -1},
                 {-1,    0,      0,      1,      0,      0,      1,      0,      1,       0,      1,      0,      -1},
                 {-1,    0,      0,      1,      0,      0,      1,      0,      1,       0,      1,      0,      -1},
                 {-1,    0,      0,      1,      0,      0,      1,      0,      1,       0,      1,      0,      -1},
                 {-1,    0,      0,      1,      0,      0,      1,      4,      1,       0,      1,      0,      -1},
-                {-1,    0,      6,      1,      0,      0,      0,      0,      0,       0,      1,      34,      -1},
+                {-1,    0,      5,      1,      0,      0,      0,      0,      0,       0,      1,      15,      -1},
                 {-1,    3,      1,      1,      1,      1,      1,      0,      0,       0,      1,      0,      -1},
                 {-1,    0,      0,      0,      0,      0,      1,      0,      0,       0,      1,      0,      -1},
-                {-1,    0,      0,      16,     0,      0,      1,      0,      0,       0,      1,      0,      -1},
+                {-1,    0,      0,      12,     0,      0,      1,      0,      0,       0,      1,      0,      -1},
                 {-1,    0,      0,      0,      0,      0,      1,      0,      0,       0,      1,      0,      -1},
-                {-1,    0,      0,      0,      0,      2,      1,      0,      0,       2,      1,      7,      -1},
-                {-1,    -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,      -1,     -1}
-        };
-
-        Wall Par2[] = new Wall[121]; //index 1
-        Key Key2[] = new Key[12]; //index 2
-        Pig Pig2[] = new Pig[12]; //index 3
-        Door Door2[] = new Door[12]; //index 4
-        Monster Monster2[] = new Monster[12]; //index 5
-        Life Life2[] = new Life[12]; //index 6
-        Wall Stone2[] = new Wall[121]; //index 7
-        Skeleton Skeleton2[] = new Skeleton[12]; //index 11, 12, 13, 14 ()
-        Zombie Zombie2[] = new Zombie[12]; //index 15, 16, 17 (vertical, horizontal, aleatorio)
-        hero.setPosicao(0, 0);
-        this.addPersonagem(hero);
-
-        for (int i = 0; i < 13; i++){
-            for (int j = 0; j < 13; j++){
-
-                if(matriz[i][j] == -2){
-                    lifeCounter = new LifeCounter("stone.png");
-                    lifeCounter.setPosicao(i, j);
-                    this.addPersonagem(lifeCounter);
-                }
-                if(matriz[i][j] == -1){
-                    Stone2[i] = new Wall("stone.png");
-                    Stone2[i].setPosicao(i,j);
-                    this.addPersonagem(Stone2[i]);
-                }
-                if(matriz[i][j] == 1){
-                    Par2[i] = new Wall("bricks.png");
-                    Par2[i].setPosicao(i,j);
-                    this.addPersonagem(Par2[i]);
-                }
-                if(matriz[i][j] == 2){
-                    Key2[i] = new Key("axe.png");
-                    Key2[i].setPosicao(i, j);
-                    this.addPersonagem(Key2[i]);
-                }
-                if(matriz[i][j] == 3){
-                    Pig2[i] = new Pig("coracao.png");
-                    Pig2[i].setPosicao(i, j);
-                    this.addPersonagem(Pig2[i]);
-                }
-                if(matriz[i][j] == 4){
-                    Door2[i] = new Door("door.png");
-                    Door2[i].setPosicao(i, j);
-                    this.addPersonagem(Door2[i]);
-                }
-                if(matriz[i][j] == 5){
-                    Monster2[i] = new Monster("caveira.png");
-                    Monster2[i].setPosicao(i, j);
-                    this.addPersonagem(Monster2[i]);
-                }
-                if(matriz[i][j] == 6){
-                    Life2[i] = new Life("coracao.png");
-                    Life2[i].setPosicao(i, j);
-                    this.addPersonagem(Life2[i]);
-                }
-                if(matriz[i][j] == 7){
-                    diamond = new Diamond("Diamond.png");
-                    diamond.setPosicao(i, j);
-                    this.addPersonagem(diamond);
-                }
-
-                if(matriz[i][j] == 11){
-                    Skeleton2[i] = new Skeleton("skeleton.png", 1);
-                    Skeleton2[i].setPosicao(i, j);
-                    this.addPersonagem(Skeleton2[i]);
-                }
-                if(matriz[i][j] == 12){
-                    Skeleton2[i] = new Skeleton("skeleton.png", 2);
-                    Skeleton2[i].setPosicao(i, j);
-                    this.addPersonagem(Skeleton2[i]);
-                }
-                if(matriz[i][j] == 13){
-                    Skeleton2[i] = new Skeleton("skeleton.png", 3);
-                    Skeleton2[i].setPosicao(i, j);
-                    this.addPersonagem(Skeleton2[i]);
-                }
-                if(matriz[i][j] == 14){
-                    Skeleton2[i] = new Skeleton("skeleton.png", 4);
-                    Skeleton2[i].setPosicao(i, j);
-                    this.addPersonagem(Skeleton2[i]);
-                }
-                if(matriz[i][j] == 15){
-                    Zombie2[i] = new Zombie("zombie.png", 'v');
-                    Zombie2[i].setPosicao(i, j);
-                    this.addPersonagem(Zombie2[i]);
-                }
-                if(matriz[i][j] == 16){
-                    Zombie2[i] = new Zombie("zombie.png", 'h');
-                    Zombie2[i].setPosicao(i, j);
-                    this.addPersonagem(Zombie2[i]);
-                }
-                if(matriz[i][j] == 17){
-                    Zombie2[i] = new Zombie("zombie.png", 'a');
-                    Zombie2[i].setPosicao(i, j);
-                    this.addPersonagem(Zombie2[i]);
-                }
-                if(matriz[i][j] == 33){
-                    arco = new Arco("arco.png");
-                    arco.setPosicao(i, j);
-                    this.addPersonagem(arco);
-                }
-                if(matriz[i][j] == 34){
-                    espada = new Espada("sword.png");
-                    espada.setPosicao(i, j);
-                    this.addPersonagem(espada);
-                }
-
-            }
-        }
-
-    }
-    public void setAllChar3(Hero hero){
-        int[][] matriz = {
-                {0,     0,      -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,      -2},
-                {-1,    0,      0,      4,      0,      15,     1,      33,      1,       12,     0,      0,      -1},
-                {-1,    0,      0,      1,      0,      0,      1,      0,      1,       0,      1,      0,      -1},
-                {-1,    0,      0,      1,      0,      0,      1,      0,      1,       0,      1,      0,      -1},
-                {-1,    0,      0,      1,      0,      0,      1,      0,      1,       0,      1,      0,      -1},
-                {-1,    0,      0,      1,      0,      0,      1,      4,      1,       0,      1,      0,      -1},
-                {-1,    0,      6,      1,      0,      0,      0,      0,      0,       0,      1,      34,      -1},
-                {-1,    3,      1,      1,      1,      1,      1,      0,      0,       0,      1,      0,      -1},
-                {-1,    0,      0,      0,      0,      0,      1,      0,      0,       0,      1,      0,      -1},
-                {-1,    0,      0,      16,     0,      0,      1,      0,      0,       0,      1,      0,      -1},
-                {-1,    0,      0,      0,      0,      0,      1,      0,      0,       0,      1,      0,      -1},
-                {-1,    0,      0,      0,      0,      2,      1,      0,      0,       2,      1,      7,      -1},
+                {-1,    0,      0,      0,      0,      2,      1,      0,      0,       2,      1,      6,      -1},
                 {-1,    -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,      -1,     -1}
         };
 
         Wall Par[] = new Wall[121]; //index 1
+        Wall Stone[] = new Wall[121]; //index -1
         Key Key[] = new Key[12]; //index 2
         Pig Pig[] = new Pig[12]; //index 3
         Door Door[] = new Door[12]; //index 4
         Monster Monster[] = new Monster[12]; //index 5
         Life Life[] = new Life[12]; //index 6
-        Wall Stone[] = new Wall[121]; //index 7
         Skeleton Skeleton[] = new Skeleton[12]; //index 11, 12, 13, 14 ()
         Zombie Zombie[] = new Zombie[12]; //index 15, 16, 17 (vertical, horizontal, aleatorio)
+
         hero.setPosicao(0, 0);
         this.addPersonagem(hero);
-
+        //Heroi --> index 9, diamond --> index 7
         for (int i = 0; i < 13; i++){
             for (int j = 0; j < 13; j++){
 
@@ -437,7 +307,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                     this.addPersonagem(Key[i]);
                 }
                 if(matriz[i][j] == 3){
-                    Pig[i] = new Pig("coracao.png");
+                    Pig[i] = new Pig("pig.png");
                     Pig[i].setPosicao(i, j);
                     this.addPersonagem(Pig[i]);
                 }
@@ -446,68 +316,187 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                     Door[i].setPosicao(i, j);
                     this.addPersonagem(Door[i]);
                 }
+
                 if(matriz[i][j] == 5){
-                    Monster[i] = new Monster("caveira.png");
-                    Monster[i].setPosicao(i, j);
-                    this.addPersonagem(Monster[i]);
-                }
-                if(matriz[i][j] == 6){
                     Life[i] = new Life("coracao.png");
                     Life[i].setPosicao(i, j);
                     this.addPersonagem(Life[i]);
                 }
-                if(matriz[i][j] == 7){
+                if(matriz[i][j] == 6){
                     diamond = new Diamond("Diamond.png");
                     diamond.setPosicao(i, j);
                     this.addPersonagem(diamond);
                 }
 
-                if(matriz[i][j] == 11){
+                if(matriz[i][j] == 7){
                     Skeleton[i] = new Skeleton("skeleton.png", 1);
                     Skeleton[i].setPosicao(i, j);
                     this.addPersonagem(Skeleton[i]);
                 }
-                if(matriz[i][j] == 12){
+                if(matriz[i][j] == 8){
                     Skeleton[i] = new Skeleton("skeleton.png", 2);
                     Skeleton[i].setPosicao(i, j);
                     this.addPersonagem(Skeleton[i]);
                 }
-                if(matriz[i][j] == 13){
+                if(matriz[i][j] == 9){
                     Skeleton[i] = new Skeleton("skeleton.png", 3);
                     Skeleton[i].setPosicao(i, j);
                     this.addPersonagem(Skeleton[i]);
                 }
-                if(matriz[i][j] == 14){
+                if(matriz[i][j] == 10){
                     Skeleton[i] = new Skeleton("skeleton.png", 4);
                     Skeleton[i].setPosicao(i, j);
                     this.addPersonagem(Skeleton[i]);
                 }
-                if(matriz[i][j] == 15){
+                if(matriz[i][j] == 11){
                     Zombie[i] = new Zombie("zombie.png", 'v');
                     Zombie[i].setPosicao(i, j);
                     this.addPersonagem(Zombie[i]);
                 }
-                if(matriz[i][j] == 16){
+                if(matriz[i][j] == 12){
                     Zombie[i] = new Zombie("zombie.png", 'h');
                     Zombie[i].setPosicao(i, j);
                     this.addPersonagem(Zombie[i]);
                 }
-                if(matriz[i][j] == 17){
+                if(matriz[i][j] == 13){
                     Zombie[i] = new Zombie("zombie.png", 'a');
                     Zombie[i].setPosicao(i, j);
                     this.addPersonagem(Zombie[i]);
                 }
-                if(matriz[i][j] == 33){
+                if(matriz[i][j] == 14){
                     arco = new Arco("arco.png");
                     arco.setPosicao(i, j);
                     this.addPersonagem(arco);
                 }
-                if(matriz[i][j] == 34){
+                if(matriz[i][j] == 15){
                     espada = new Espada("sword.png");
                     espada.setPosicao(i, j);
                     this.addPersonagem(espada);
                 }
+            }
+        }
 
+    }
+    public void setAllChar3(Hero hero){
+        int[][] matriz = {
+                {0,     0,      -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,      -2},
+                {-1,    0,      0,      4,      0,      11,     1,      14,      1,       8,     0,      0,      -1},
+                {-1,    0,      0,      1,      0,      0,      1,      0,      1,       0,      1,      0,      -1},
+                {-1,    0,      0,      1,      0,      0,      1,      0,      1,       0,      1,      0,      -1},
+                {-1,    0,      0,      1,      0,      0,      1,      0,      1,       0,      1,      0,      -1},
+                {-1,    0,      0,      1,      0,      0,      1,      4,      1,       0,      1,      0,      -1},
+                {-1,    0,      5,      1,      0,      0,      0,      0,      0,       0,      1,      15,      -1},
+                {-1,    3,      1,      1,      1,      1,      1,      0,      0,       0,      1,      0,      -1},
+                {-1,    0,      0,      0,      0,      0,      1,      0,      0,       0,      1,      0,      -1},
+                {-1,    0,      0,      12,     0,      0,      1,      0,      0,       0,      1,      0,      -1},
+                {-1,    0,      0,      0,      0,      0,      1,      0,      0,       0,      1,      0,      -1},
+                {-1,    0,      0,      0,      0,      2,      1,      0,      0,       2,      1,      6,      -1},
+                {-1,    -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,      -1,     -1}
+        };
+
+        Wall Par[] = new Wall[121]; //index 1
+        Wall Stone[] = new Wall[121]; //index -1
+        Key Key[] = new Key[12]; //index 2
+        Pig Pig[] = new Pig[12]; //index 3
+        Door Door[] = new Door[12]; //index 4
+        Monster Monster[] = new Monster[12]; //index 5
+        Life Life[] = new Life[12]; //index 6
+        Skeleton Skeleton[] = new Skeleton[12]; //index 11, 12, 13, 14 ()
+        Zombie Zombie[] = new Zombie[12]; //index 15, 16, 17 (vertical, horizontal, aleatorio)
+
+        hero.setPosicao(0, 0);
+        this.addPersonagem(hero);
+        //Heroi --> index 9, diamond --> index 7
+        for (int i = 0; i < 13; i++){
+            for (int j = 0; j < 13; j++){
+
+                if(matriz[i][j] == -2){
+                    lifeCounter = new LifeCounter("stone.png");
+                    lifeCounter.setPosicao(i, j);
+                    this.addPersonagem(lifeCounter);
+                }
+                if(matriz[i][j] == -1){
+                    Stone[i] = new Wall("stone.png");
+                    Stone[i].setPosicao(i,j);
+                    this.addPersonagem(Stone[i]);
+                }
+                if(matriz[i][j] == 1){
+                    Par[i] = new Wall("bricks.png");
+                    Par[i].setPosicao(i,j);
+                    this.addPersonagem(Par[i]);
+                }
+                if(matriz[i][j] == 2){
+                    Key[i] = new Key("axe.png");
+                    Key[i].setPosicao(i, j);
+                    this.addPersonagem(Key[i]);
+                }
+                if(matriz[i][j] == 3){
+                    Pig[i] = new Pig("pig.png");
+                    Pig[i].setPosicao(i, j);
+                    this.addPersonagem(Pig[i]);
+                }
+                if(matriz[i][j] == 4){
+                    Door[i] = new Door("door.png");
+                    Door[i].setPosicao(i, j);
+                    this.addPersonagem(Door[i]);
+                }
+
+                if(matriz[i][j] == 5){
+                    Life[i] = new Life("coracao.png");
+                    Life[i].setPosicao(i, j);
+                    this.addPersonagem(Life[i]);
+                }
+                if(matriz[i][j] == 6){
+                    diamond = new Diamond("Diamond.png");
+                    diamond.setPosicao(i, j);
+                    this.addPersonagem(diamond);
+                }
+
+                if(matriz[i][j] == 7){
+                    Skeleton[i] = new Skeleton("skeleton.png", 1);
+                    Skeleton[i].setPosicao(i, j);
+                    this.addPersonagem(Skeleton[i]);
+                }
+                if(matriz[i][j] == 8){
+                    Skeleton[i] = new Skeleton("skeleton.png", 2);
+                    Skeleton[i].setPosicao(i, j);
+                    this.addPersonagem(Skeleton[i]);
+                }
+                if(matriz[i][j] == 9){
+                    Skeleton[i] = new Skeleton("skeleton.png", 3);
+                    Skeleton[i].setPosicao(i, j);
+                    this.addPersonagem(Skeleton[i]);
+                }
+                if(matriz[i][j] == 10){
+                    Skeleton[i] = new Skeleton("skeleton.png", 4);
+                    Skeleton[i].setPosicao(i, j);
+                    this.addPersonagem(Skeleton[i]);
+                }
+                if(matriz[i][j] == 11){
+                    Zombie[i] = new Zombie("zombie.png", 'v');
+                    Zombie[i].setPosicao(i, j);
+                    this.addPersonagem(Zombie[i]);
+                }
+                if(matriz[i][j] == 12){
+                    Zombie[i] = new Zombie("zombie.png", 'h');
+                    Zombie[i].setPosicao(i, j);
+                    this.addPersonagem(Zombie[i]);
+                }
+                if(matriz[i][j] == 13){
+                    Zombie[i] = new Zombie("zombie.png", 'a');
+                    Zombie[i].setPosicao(i, j);
+                    this.addPersonagem(Zombie[i]);
+                }
+                if(matriz[i][j] == 14){
+                    arco = new Arco("arco.png");
+                    arco.setPosicao(i, j);
+                    this.addPersonagem(arco);
+                }
+                if(matriz[i][j] == 15){
+                    espada = new Espada("sword.png");
+                    espada.setPosicao(i, j);
+                    this.addPersonagem(espada);
+                }
             }
         }
 
@@ -661,7 +650,6 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                     hero.resetaAllHero();
                     setFase(hero);
                 }
-
             }
 
 
@@ -685,7 +673,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     public void keyPressed(KeyEvent e) {
         Hero hero = (Hero) this.faseAtual.get(0);
         if (e.getKeyCode() == KeyEvent.VK_M) {
-            save(this.faseAtual, "savegame.ser");
+            save("savegame.ser");
         }
         if (e.getKeyCode() == KeyEvent.VK_C) {
             this.faseAtual.clear();
@@ -696,12 +684,6 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             } else {
                 hero.changeImg("upSteve.png");
             }
-/*
-            if (faseAt == 3) {
-                
-                ghast.moveUp();
-            }
-*/
 
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             hero.moveDown();
@@ -711,13 +693,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             } else {
                 hero.changeImg("downSteve.png");
             }
-/*
-            if (faseAt == 3) {
-              
-                ghast.moveDown();
-            }
 
-*/
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             hero.changeImg("leftSteve.png");
             if (hero.hasSword()) {
@@ -785,28 +761,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         }else if (e.getKeyCode() == KeyEvent.VK_R){
             this.faseAtual.clear();
             setAllChar(hero);
-        }/*else if(e.getKeyCode() == KeyEvent.VK_P) {
-            if (this.cj.isFinished()) {
-                switch(this.cj.getFase()){
-                    case(1):
-                        this.faseAtual.clear();
-                        setAllChar2();
-
-                        break;
-                    case(2):
-                        this.faseAtual.clear();
-                        setAllChar3();
-                        break;
-                    case(3):
-                        this.faseAtual.clear();
-                        faseAt = 3;
-                        setAllChar4();
-                        break;
-                    default:
-                }
-            } else {
-                System.out.println("Termine a fase antes");
-            }*/
+        }
         else if(e.getKeyCode() == KeyEvent.VK_Z){
             this.faseAtual.clear();
             this.cj.setFase(3);
@@ -822,6 +777,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
 
     public void mousePressed(MouseEvent e) {
+        Hero hero = (Hero) this.faseAtual.get(0);
+
         /* Clique do mouse desligado*/
          int x = e.getX();
          int y = e.getY();
@@ -829,7 +786,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
          this.setTitle("X: "+ x + ", Y: " + y +
          " -> Cell: " + (y/Consts.CELL_SIDE) + ", " + (x/Consts.CELL_SIDE));
         
-         this.hero.getPosicao().setPosicao(y/Consts.CELL_SIDE, x/Consts.CELL_SIDE);
+         hero.getPosicao().setPosicao(y/Consts.CELL_SIDE, x/Consts.CELL_SIDE);
          
         repaint();
     }

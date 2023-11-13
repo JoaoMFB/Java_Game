@@ -16,41 +16,20 @@ public abstract class Personagem implements Serializable {
     protected Posicao pPosicao;
     protected boolean bTransponivel; /*Pode passar por cima?*/
     protected boolean bMortal;       /*Se encostar, morre?*/
-    protected boolean isHero;
-    protected boolean isPig;
     protected boolean isMonster;
-    protected boolean isArrow;
-    protected boolean isFireball;
-    protected boolean isKey;
-    protected boolean isLife;
     protected boolean isGhast;
-    protected boolean isDoor;
-    protected boolean isDiamond;
-    protected boolean isArco;
 
-    protected boolean isEspada;
-    protected boolean isLifeCounter;
 
-    protected String whatIsIt = null;
+
 
 
     protected Personagem(String sNomeImagePNG) {
         this.pPosicao = new Posicao(1, 1);
         this.bTransponivel = true;
         this.bMortal = false;
-        this.isHero = false;
-        this.isPig = false;
-        this.isKey = false;
-        this.isDoor = false;
         this.isMonster = false;
-        this.isArrow = false;
-        this.isLife = false;
-        this.isDiamond = false;
-        this.isArco = false;
-        this.isEspada = false;
         this.isGhast = false;
-        this.isLifeCounter = false;
-        
+
         try {
             iImage = new ImageIcon(new java.io.File(".").getCanonicalPath() + Consts.PATH + sNomeImagePNG);
             Image img = iImage.getImage();
@@ -70,9 +49,6 @@ public abstract class Personagem implements Serializable {
     }
 
 
-    public String getWhatIsIt() {
-        return whatIsIt;
-    }
 
     public boolean isbTransponivel() {
         return bTransponivel;
@@ -95,32 +71,10 @@ public abstract class Personagem implements Serializable {
         this.bTransponivel = bTransponivel;
     }
 
-    public boolean isbLifeCounter(){return isLifeCounter;}
-    public boolean isbKey(){
-        return isKey;
-    }
-    public boolean isbLife(){
-        return isLife;
-    }
-
-    public boolean isbPig(){
-        return isPig;
-    }
-    public boolean isbHero() {return isHero;}
- 
-    public boolean isbDoor() { return isDoor; }
-    
-    public boolean isbEspada() { return isEspada; }
 
     public boolean isbMonster(){return isMonster;}
-    
-    public boolean isbArrow(){return isArrow;}
-    
-    public boolean isbFireball(){return isFireball;}
 
-    public boolean isbDiamond(){return isDiamond;}
-    
-    public boolean isbArco(){return isArco;}
+
     
     public boolean isbGhast(){return isGhast;}
 

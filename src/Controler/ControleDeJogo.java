@@ -1,8 +1,6 @@
 package Controler;
 
-import Modelo.Personagem;
-import Modelo.Hero;
-import Modelo.Ghast;
+import Modelo.*;
 import auxiliar.Posicao;
 import java.util.ArrayList;
 import java.lang.Math;
@@ -40,7 +38,7 @@ public class ControleDeJogo {
 
         if(this.getFase() == 3){
              for (int k = 1; k < umaFase.size(); k++) {
-                 if(umaFase.get(k).isbGhast()){
+                 if(umaFase.get(k) instanceof Ghast){
                      
                      Ghast ghast = (Ghast) umaFase.get(k);
                      Posicao posicaoGhast = ghast.getPosicao();
@@ -49,17 +47,22 @@ public class ControleDeJogo {
                             int direcaoHero = hero.getDirecao();
                             ghast.moveBox(direcaoHero);
                          }
-                         
                      }
-                     
-                          
+                     for(int j = 1; j < umaFase.size(); j++){
+                         pJesimoPersonagem = umaFase.get(j);
+                         if (ghast.getPosicao().igual(pJesimoPersonagem.getPosicao())){
+                             if(pJesimoPersonagem instanceof Wall){
+                                 ghast.voltaAUltimaPosicao();
+                             }
+                         }
+                     }
                  }
              }
          }
 
         for(int i = 1; i < umaFase.size(); i++){
             pIesimoPersonagem = umaFase.get(i);
-            if(pIesimoPersonagem.isbLifeCounter()){
+            if(pIesimoPersonagem instanceof LifeCounter){
                 switch(hero.getQttLifes()){
                     case(0):
                         pIesimoPersonagem.changeImg("life0.png");
@@ -128,12 +131,12 @@ public class ControleDeJogo {
         for (int i = 1; i < umaFase.size(); i++) {
             pIesimoPersonagem = umaFase.get(i);
             // Verifica se o personagem do vetor é uma flecha, se for ela deve ser comparada com todos os outros elementos, nao apenas com o heroi
-            if (pIesimoPersonagem.isbArrow()) {
+            if (pIesimoPersonagem instanceof Arrow) {
                 for (int j = 1; j < umaFase.size(); j++) {
                     pJesimoPersonagem = umaFase.get(j);
                     if (pJesimoPersonagem.getPosicao().igual(pIesimoPersonagem.getPosicao())){
                         //TODO ==> A flecha só mata quando o ultimo movimento do heroi foi up/down.
-                        if (pJesimoPersonagem.isbMonster() && pJesimoPersonagem.isbGhast()){
+                        if (pJesimoPersonagem.isbMonster() && (pJesimoPersonagem instanceof Ghast)){
                             Ghast ghast = (Ghast) umaFase.get(j);        
                             if (ghast.getQttLifes() != 0){
                                 ghast.setQttLifes(ghast.getQttLifes() - 1);
@@ -150,7 +153,7 @@ public class ControleDeJogo {
                 }
             }
             // Se o porco for atingido por um zumbi ele morre
-             if(pIesimoPersonagem.isbPig()){
+             if(pIesimoPersonagem instanceof Pig){
                  for (int j = 1; j < umaFase.size(); j++) {
                      pJesimoPersonagem = umaFase.get(j);
                      if(pIesimoPersonagem.getPosicao().igual(pJesimoPersonagem.getPosicao()) && pJesimoPersonagem.isbMonster()){
@@ -163,17 +166,17 @@ public class ControleDeJogo {
             // a partir daqui os objetos serao comparados apenas com o heroi, pois nao ha necessidade de comparar com todos os outros.
             if (hero.getPosicao().igual(pIesimoPersonagem.getPosicao())) {
                 if (pIesimoPersonagem.isbTransponivel()) {
-                    if (pIesimoPersonagem.isbKey()) {
+                    if (pIesimoPersonagem instanceof Key) {
                         keys++;
                         hero.setQttKeys(keys);
                         System.out.format("Chaves coletadas: %d\n", keys);
                     }
-                    if (pIesimoPersonagem.isbPig()) {
+                    if (pIesimoPersonagem instanceof Pig) {
                         int direcaoHero = hero.getDirecao();
                         pIesimoPersonagem.moveBox(direcaoHero);
                     }
-                    if (pIesimoPersonagem.getWhatIsIt() == "Life") {
-                        System.out.println("funcionou");
+                    if (pIesimoPersonagem instanceof Life) {
+
                         if(life <= 3){
                             life++;
                             hero.setQttLifes(life);
@@ -184,7 +187,7 @@ public class ControleDeJogo {
                             System.out.println("Você atingiu a capacidade máxima de vidas (3)");
                         }
                     }
-                    if (!pIesimoPersonagem.isbPig() && !pIesimoPersonagem.isbMonster()) {
+                    if (!(pIesimoPersonagem instanceof Pig) && !pIesimoPersonagem.isbMonster()) {
                         umaFase.remove(pIesimoPersonagem);
                     }
                     // Implementar a morte do hero (reset) quando entra no monstro.
@@ -198,35 +201,26 @@ public class ControleDeJogo {
                     }
 
                     // Precisa arrumar esse if, pq ta dando exception quando o steve morre por uma flecha, tanto do esqueleto quanto do ghast. (A morte por contato com o zumbi não acontece isso)
-                    if(pIesimoPersonagem.isbFireball()){
+                    if(pIesimoPersonagem instanceof Fireball){
                         if(hero.getQttLifes() != 0){
                             resetaHeroi(hero);
                         }
-                        else{hero.changeImg("");
-                            System.out.println("\"Você morreu e não tem mais vidas, pressione 'R' para recomeçar a fase!\\n\"");
+                        else{
+                            System.out.println("Você morreu e não tem mais vidas, a fase foi recomeçada.\n");
                             return -1;
                         }
                     }
                     
-                    if (pIesimoPersonagem.isbArrow()) {
+                    if (pIesimoPersonagem instanceof Arrow) {
                         if (hero.getQttLifes() != 0) {
                             resetaHeroi(hero);
-                           /* if(this.getFase() == 3){
-                                for (int k = 1; k < umaFase.size(); k++) {
-                                    if(umaFase.get(k).isbGhast()){
-                                        Ghast ghast = (Ghast) umaFase.get(k);
-                                        ghast.setPosicao(linhaHeroi,colunaHeroi);       
-                                    }
-                                }
-                            }*/
-
                         } else {
-                            hero.changeImg("");
-                            System.out.println("Você morreu e não tem mais vidas, pressione 'R' para recomeçar a fase!\n");
+                            System.out.println("Você morreu e não tem mais vidas, a fase foi recomeçada.\n");
                             return -1;
                         }
+
                     }
-                    if (pIesimoPersonagem.isbDiamond()) {
+                    if (pIesimoPersonagem instanceof Diamond) {
                         setFinished(true);
                         if (this.getFase() == 4) {
                             System.out.println("Parabéns, você zerou o jogo!");
@@ -236,16 +230,16 @@ public class ControleDeJogo {
                         }
                         return 1;
                     }
-                    if (pIesimoPersonagem.isbArco()) {
+                    if (pIesimoPersonagem instanceof Arco) {
                         hero.setArco(true);
                     }
-                    if (pIesimoPersonagem.isbEspada()) {
+                    if (pIesimoPersonagem instanceof Espada) {
                         hero.setHasSword(true);
 
                     }
 
                 }
-                if (pIesimoPersonagem.isbDoor()) {
+                if (pIesimoPersonagem instanceof Door) {
                     if (hero.getQttKeys() >= 1) {
                         umaFase.remove(umaFase.get(i));
                         hero.setQttKeys(hero.getQttKeys() - 1);
@@ -293,10 +287,10 @@ public class ControleDeJogo {
             pIesimoPersonagem = umaFase.get(i);            
             if(!pIesimoPersonagem.isbTransponivel()) {
                 if (pIesimoPersonagem.getPosicao().igual(p)) {
-                    if (pIesimoPersonagem.isbPig()) {
+                    if (pIesimoPersonagem instanceof Pig) {
                         return true;
                     }
-                    else if (pIesimoPersonagem.isbDoor()) {
+                    else if (pIesimoPersonagem instanceof Door) {
                         return true;
                     }
 

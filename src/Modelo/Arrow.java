@@ -15,9 +15,7 @@ public class Arrow extends Personagem implements Serializable{
     public Arrow(String sNomeImagePNG, int arrowDirection) {
         super(sNomeImagePNG);
         this.bMortal = true;  
-        this.isArrow = true;
         this.arrowDirection = arrowDirection;
-        this.whatIsIt = "Arrow";
     }
 
     

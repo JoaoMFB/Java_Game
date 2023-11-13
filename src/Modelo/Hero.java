@@ -19,9 +19,7 @@ public class Hero extends Personagem implements Serializable{
    private String img;
     public Hero(String sNomeImagePNG) {
         super(sNomeImagePNG);
-        this.isHero = true;
         this.img = "sNomeImagePNG";
-        this.whatIsIt = "Hero";
     }
 
     public void voltaAUltimaPosicao(){
@@ -49,24 +47,7 @@ public class Hero extends Personagem implements Serializable{
         return false;
     }
 
-    public void copyAttributes(Hero other) {
-        // Copie os atributos do 'other' para a instância atual
-        this.img = other.img;
-        this.isHero = other.isHero;
-        this.whatIsIt = other.whatIsIt;
-        Posicao pOther = other.getPosicao();
-        int linha = pOther.getLinha();
-        int coluna = pOther.getColuna();
-        this.pPosicao = new Posicao(linha, coluna);
-        this.arco = other.arco;
-        this.qttKeys = other.qttKeys;
-        this.qttLifes = other.qttLifes;
-        this.direcao = other.direcao;
-        this.attackDirection = other.attackDirection;
-        this.hasSword = other.hasSword;
-        this.isAnimating = other.isAnimating;
-        this.lastDirection = other.lastDirection;
-    }
+
 
     public int getAttackDirection() {
         return attackDirection;
