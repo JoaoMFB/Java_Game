@@ -226,6 +226,7 @@ public class ControleDeJogo {
 
                     }
                     if (pIesimoPersonagem instanceof Diamond) {
+                        hero.setArco(false);
                         setFinished(true);
                         if (this.getFase() == 4) {
                             System.out.println("Parabéns, você zerou o jogo!");

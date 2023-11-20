@@ -30,22 +30,22 @@ public class Skeleton extends Monster implements Serializable{
         if(this.iContaIntervalos == Consts.TIMER){
             this.iContaIntervalos = 0;
             if(arrowDirection == 1){
-                BadArrow arrow = new BadArrow("arrowup.png", 1);
+                Fireball arrow = new Fireball("arrowup.png", 1);
                 arrow.setPosicao(pPosicao.getLinha()-1,pPosicao.getColuna());
                 Desenho.acessoATelaDoJogo().addPersonagem(arrow);
             }
             if(arrowDirection == 2){
-                Arrow arrow = new Arrow("arrowdown.png", 2);
+                Fireball arrow = new Fireball("arrowdown.png", 2);
                 arrow.setPosicao(pPosicao.getLinha()+1,pPosicao.getColuna());
                 Desenho.acessoATelaDoJogo().addPersonagem(arrow);
             }
             if(arrowDirection == 3){
-                Arrow arrow = new Arrow("arrowright.png", 3);
+                Fireball arrow = new Fireball("arrowright.png", 3);
                 arrow.setPosicao(pPosicao.getLinha(),pPosicao.getColuna()+1);
                 Desenho.acessoATelaDoJogo().addPersonagem(arrow);
             }
             if(arrowDirection == 4){
-                Arrow arrow = new Arrow("arrowleft.png", 4);
+                Fireball arrow = new Fireball("arrowleft.png", 4);
                 arrow.setPosicao(pPosicao.getLinha(),pPosicao.getColuna()-1);
                 Desenho.acessoATelaDoJogo().addPersonagem(arrow);
             }

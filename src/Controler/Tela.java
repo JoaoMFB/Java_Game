@@ -585,7 +585,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                     ghast = new Ghast("ghast.png");
                     ghast.setPosicao(i,j);
                     this.addPersonagem(ghast);
-                    ghast.setQttLifes(3);
+                    ghast.setQttLifes(5);
                 }
                 if(matriz[i][j] == 33){
                     arco = new Arco("arco.png");
