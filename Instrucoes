@@ -1,0 +1,11 @@
+Trabalho feito por:
+    João Marcelo Ferreira Battaglini - 13835472
+    Daniel Umeda Kuhn - 13676541
+
+- Para andar, utilize as setas;
+- Com o arco coletado, utilize WASD para atirar de acordo com a direção desejada;
+- Com a espada coletada, é possível utilizar espaço para bater em um inimigo próximo;
+- Utilize a tecla "M" para salvar o jogo;
+- Utilize a tecla "R" para reiniciar a fase;
+- Ao morrer, caso possua vidas, a fase se mantém igual e apenas a posição do herói é resetada. Quando não houver mais vidas, toda a fase é reiniciada;
+- O objetivo final na última fase é matar o boss "Ghast", quando concluído, uma mensagem é printada.

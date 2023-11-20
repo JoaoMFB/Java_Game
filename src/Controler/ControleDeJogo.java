@@ -144,7 +144,6 @@ public class ControleDeJogo {
                             else{
                                 umaFase.remove(ghast);
                                 System.out.println("Parabéns, você zerou o jogo, obrigado por jogar! \nFeito por: \nDaniel Umeda Kuhn \nJoao Marcelo Battaglini");
-                                
                             }
                         }
                         else if(pJesimoPersonagem.isbMonster()) {
@@ -163,6 +162,9 @@ public class ControleDeJogo {
                      pJesimoPersonagem = umaFase.get(j);
                      if(pIesimoPersonagem.getPosicao().igual(pJesimoPersonagem.getPosicao()) && pJesimoPersonagem.isbMonster()){
                          umaFase.remove(umaFase.get(i));
+                     }
+                     else if(pIesimoPersonagem.getPosicao().igual(pJesimoPersonagem.getPosicao()) && (pJesimoPersonagem instanceof Fireball)){
+                         umaFase.remove(umaFase.get(j));
                      }
                  }
              }
@@ -205,7 +207,6 @@ public class ControleDeJogo {
                         }
                     }
 
-                    // Precisa arrumar esse if, pq ta dando exception quando o steve morre por uma flecha, tanto do esqueleto quanto do ghast. (A morte por contato com o zumbi não acontece isso)
                     if(pIesimoPersonagem instanceof Fireball){
                         if(hero.getQttLifes() != 0){
                             resetaHeroi(hero);
@@ -214,8 +215,15 @@ public class ControleDeJogo {
                             System.out.println("Você morreu e não tem mais vidas, a fase foi recomeçada.\n");
                             return -1;
                         }
+                        for (int j = 1; j < umaFase.size(); j++) {
+                            pJesimoPersonagem = umaFase.get(j);
+                            if (pIesimoPersonagem.getPosicao().igual(pJesimoPersonagem.getPosicao()) && pJesimoPersonagem.isbMonster()) {
+                                umaFase.remove(umaFase.get(i));
+                            }
+                        }
+
                     }
-                    
+
                     if (pIesimoPersonagem instanceof Arrow) {
                         if (hero.getQttLifes() != 0) {
                             resetaHeroi(hero);
@@ -223,6 +231,8 @@ public class ControleDeJogo {
                             System.out.println("Você morreu e não tem mais vidas, a fase foi recomeçada.\n");
                             return -1;
                         }
+
+
 
                     }
                     if (pIesimoPersonagem instanceof Diamond) {

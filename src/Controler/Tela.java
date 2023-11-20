@@ -506,7 +506,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                 {-1,  0,  0,  1,  0,  0,  1,  1,  0,  0,  1,  0, -1},
                 {-1,  1,  6,  1,  0,  0,  0,  1,  0,  0,  1,  0, -1},
                 {-1,  0,  0,  1,  1,  0,  0,  1,  0,  0,  1,  0, -1},
-                {-1,  0,  1,  0, 15,  0,  0,  1,  0,  0,  1,  0, -1},
+                {-1,  0,  1,  0,  0,  0,  0,  1,  0,  0,  1,  0, -1},
                 {-1,  0,  0,  0,  0,  0,  0,  1,  0,  0,  1,  0, -1},
                 {-1,  0,  0,  0,  0,  0,  0,  1,  0,  6,  1,  0, -1},
                 {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
@@ -756,12 +756,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             this.faseAtual.clear();
             setAllChar(hero);
         }
-        else if(e.getKeyCode() == KeyEvent.VK_Z){
-            this.faseAtual.clear();
-            this.cj.setFase(3);
-            faseAt = 3;
-            setAllChar4(hero);
-        }
+
 
 
         this.setTitle("-> Cell: " + (hero.getPosicao().getColuna()) + ", "
