@@ -30,7 +30,7 @@ public class Skeleton extends Monster implements Serializable{
         if(this.iContaIntervalos == Consts.TIMER){
             this.iContaIntervalos = 0;
             if(arrowDirection == 1){
-                Arrow arrow = new Arrow("arrowup.png", 1);
+                BadArrow arrow = new BadArrow("arrowup.png", 1);
                 arrow.setPosicao(pPosicao.getLinha()-1,pPosicao.getColuna());
                 Desenho.acessoATelaDoJogo().addPersonagem(arrow);
             }

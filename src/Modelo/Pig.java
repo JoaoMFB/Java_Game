@@ -14,6 +14,9 @@ public class Pig extends Personagem implements Serializable {
     public void autoDesenho(){
         super.autoDesenho();
     }
+    public void voltaAUltimaPosicao(){
+        this.pPosicao.volta();
+    }
 
 
 

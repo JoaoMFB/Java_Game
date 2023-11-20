@@ -135,7 +135,7 @@ public class ControleDeJogo {
                 for (int j = 1; j < umaFase.size(); j++) {
                     pJesimoPersonagem = umaFase.get(j);
                     if (pJesimoPersonagem.getPosicao().igual(pIesimoPersonagem.getPosicao())){
-                        //TODO ==> A flecha só mata quando o ultimo movimento do heroi foi up/down.
+
                         if (pJesimoPersonagem.isbMonster() && (pJesimoPersonagem instanceof Ghast)){
                             Ghast ghast = (Ghast) umaFase.get(j);        
                             if (ghast.getQttLifes() != 0){
@@ -150,6 +150,9 @@ public class ControleDeJogo {
                         else if(pJesimoPersonagem.isbMonster()) {
                             umaFase.remove(umaFase.get(j));
                         }
+                        else if(pJesimoPersonagem instanceof Pig){
+                            umaFase.remove(umaFase.get(i));
+                        }
                         
                     }
                 }
@@ -163,7 +166,6 @@ public class ControleDeJogo {
                      }
                  }
              }
-
 
             // a partir daqui os objetos serao comparados apenas com o heroi, pois nao ha necessidade de comparar com todos os outros.
             if (hero.getPosicao().igual(pIesimoPersonagem.getPosicao())) {
@@ -192,6 +194,7 @@ public class ControleDeJogo {
                     if (!(pIesimoPersonagem instanceof Pig) && !pIesimoPersonagem.isbMonster()) {
                         umaFase.remove(pIesimoPersonagem);
                     }
+
                     // Implementar a morte do hero (reset) quando entra no monstro.
                     if (pIesimoPersonagem.isbMonster()) {
                         if (hero.getQttLifes() != 0) {
